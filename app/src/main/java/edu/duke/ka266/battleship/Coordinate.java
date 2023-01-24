@@ -16,6 +16,14 @@ public class Coordinate {
 
   Coordinate(String descr) {
 
+    if(descr == null){
+       throw new IllegalArgumentException("No Input was given");
+    }
+
+     if(descr.length() <2){
+       throw new IllegalArgumentException("Not Enough Input was given");
+    }
+    
     char rowLetter = descr.toUpperCase().charAt(0);
     if (rowLetter < 'A' || rowLetter > 'Z') {
       throw new IllegalArgumentException("Row character should be an Aplha character but is " + descr.charAt(0));
