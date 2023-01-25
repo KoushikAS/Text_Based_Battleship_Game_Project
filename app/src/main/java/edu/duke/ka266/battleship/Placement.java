@@ -17,6 +17,9 @@ public class Placement {
     parsePlacement();
   }
 
+  /**
+   * Creating Placement object from a string.
+   */
   Placement(String descr) {
 
     if(descr == null){

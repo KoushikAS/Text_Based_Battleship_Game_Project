@@ -45,7 +45,6 @@ public class BoardTextView {
     return ans.toString();
   }
 
-
   /**
    * Displaying theBoard in a Textual format.
    */

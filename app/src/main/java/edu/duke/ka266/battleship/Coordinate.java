@@ -14,6 +14,9 @@ public class Coordinate {
 
   }
 
+  /**
+   * Reading Coordinate object from a String.
+   */
   Coordinate(String descr) {
 
     if(descr == null){
