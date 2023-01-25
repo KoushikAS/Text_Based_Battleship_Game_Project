@@ -41,4 +41,9 @@ test {
         showStandardStreams = true
         exceptionFormat = 'full'
     }
+
+run{
+    standardInput = System.in
+}
+
 }

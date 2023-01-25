@@ -5,6 +5,7 @@ package edu.duke.ka266.battleship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.Reader;
 
@@ -37,8 +38,10 @@ public class App {
   }
 
   
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
+      App app = new App(new BattleShipBoard<Character>(10, 20), new InputStreamReader(System.in), System.out);
+      
         
     }
 }
