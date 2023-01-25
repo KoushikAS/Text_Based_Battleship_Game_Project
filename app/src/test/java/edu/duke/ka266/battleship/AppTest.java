@@ -4,13 +4,18 @@
 package edu.duke.ka266.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
 
 class AppTest {
 
@@ -56,26 +61,51 @@ class AppTest {
     String[] expected = new String[3];
     expected[0] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
-     body = "A  | |  A\n" +
+    body = "A  | |  A\n" +
         "B  | |s B\n" +
         "C  |s|  C\n" +
         "D  | |  D\n" +
         "E  | |  E\n";
     expected[1] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
-     body = "A s| |  A\n" +
+    body = "A s| |  A\n" +
         "B  | |s B\n" +
         "C  |s|  C\n" +
         "D  | |  D\n" +
         "E  | |  E\n";
     expected[2] = prompt + "\n" + expectedHeader + body + expectedHeader;
-    
+
     for (int i = 0; i < 3; i++) {
       app.doOnePlacement();
       assertEquals(expected[i], bytes.toString()); // should have printed prompt and newline
       bytes.reset(); // clear out bytes for next time around
     }
 
+  }
+
+  @Test
+  @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+  void test_main() throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+    InputStream input = getClass().getClassLoader().getResourceAsStream("input.txt");
+    assertNotNull(input);
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("output.txt");
+    assertNotNull(expectedStream);
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+    try {
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    } finally {
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+
+    String expected = new String(expectedStream.readAllBytes());
+    String actual = bytes.toString();
+    assertEquals(expected, actual);
   }
 
 }

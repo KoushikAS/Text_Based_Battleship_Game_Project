@@ -40,8 +40,10 @@ public class App {
   
     public static void main(String[] args) throws IOException {
 
+
       App app = new App(new BattleShipBoard<Character>(10, 20), new InputStreamReader(System.in), System.out);
-      
+
+      app.doOnePlacement();
         
     }
 }
