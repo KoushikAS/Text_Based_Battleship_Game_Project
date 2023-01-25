@@ -7,7 +7,10 @@ public class BasicShip implements Ship<Character> {
   BasicShip(Coordinate loc){
     myLocation = loc;
   }
-  
+
+  /**
+   *Returns if a ship occupies this cooridnate
+   */ 
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
     return where.equals(myLocation);
@@ -31,6 +34,9 @@ public class BasicShip implements Ship<Character> {
     return false;
   }
 
+  /**
+     Returns the display information at the coordinate.
+   */
   @Override
   public Character getDisplayInfoAt(Coordinate where) {
     return 's';
