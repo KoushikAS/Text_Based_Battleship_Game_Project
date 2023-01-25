@@ -46,25 +46,32 @@ public class BoardTextView {
   }
 
   public String displayMyOwnBoard() {
-    StringBuilder  ans = new StringBuilder("");
+    StringBuilder ans = new StringBuilder("");
 
-     ans.append(makeHeader());
+    ans.append(makeHeader());
 
-    String sep=""; //start with nothing to separate, then switch to | to separate
-    for (int i =0; i < toDisplay.getHeight(); i++){
-      ans.append((char)(i + 65) + " ");
-      sep =""; 
+    String sep = ""; // start with nothing to separate, then switch to | to separate
+    for (int i = 0; i < toDisplay.getHeight(); i++) {
+      ans.append((char) (i + 65) + " ");
+      sep = "";
       for (int j = 0; j < toDisplay.getWidth(); j++) {
         ans.append(sep);
-        ans.append(" ");
+
+        Character cell = toDisplay.whatIsAt(new Coordinate(i, j));
+        if (cell == null) {
+          ans.append(" ");
+        } else {
+          ans.append(cell);
+        }
+
         sep = "|";
       }
-       ans.append(" " +(char)(i + 65));
-    ans.append("\n");
+      ans.append(" " + (char) (i + 65));
+      ans.append("\n");
     }
     ans.append(makeHeader());
-    
+
     return ans.toString();
- }
+  }
 
 }
