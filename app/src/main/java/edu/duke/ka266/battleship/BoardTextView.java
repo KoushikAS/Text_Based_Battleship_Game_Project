@@ -12,7 +12,7 @@ public class BoardTextView {
   /**
    * The Board to display
    */
-  private final Board toDisplay;
+  private final Board<Character> toDisplay;
 
   /**
    * Constructs a BoardView, given the board it will display.
