@@ -25,7 +25,8 @@ class AppTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
     Board<Character> b = new BattleShipBoard<Character>(10, 20);
-    App app = new App(b, sr, ps);
+    AbstractShipFactory<Character> shipFactory = new V1ShipFactory();
+    App app = new App(b, sr, ps, shipFactory);
 
     String prompt = "Please enter a location for a ship:";
     Placement[] expected = new Placement[3];
@@ -47,31 +48,32 @@ class AppTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
     Board<Character> b = new BattleShipBoard<Character>(3, 5);
-    App app = new App(b, sr, ps);
+    AbstractShipFactory<Character> shipFactory = new V1ShipFactory();
+    App app = new App(b, sr, ps, shipFactory);
 
     String prompt = "Where would you like to put your ship?\n";
 
     String expectedHeader = "  0|1|2\n";
     String body = "A  | |  A\n" +
-        "B  | |s B\n" +
-        "C  | |  C\n" +
-        "D  | |  D\n" +
+        "B  | |d B\n" +
+        "C  | |d C\n" +
+        "D  | |d D\n" +
         "E  | |  E\n";
 
     String[] expected = new String[3];
     expected[0] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
     body = "A  | |  A\n" +
-        "B  | |s B\n" +
-        "C  |s|  C\n" +
-        "D  | |  D\n" +
+        "B  | |d B\n" +
+        "C  |d|d C\n" +
+        "D  | |d D\n" +
         "E  | |  E\n";
     expected[1] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
-    body = "A s| |  A\n" +
-        "B  | |s B\n" +
-        "C  |s|  C\n" +
-        "D  | |  D\n" +
+    body = "A d| |  A\n" +
+        "B d| |d B\n" +
+        "C d|d|d C\n" +
+        "D  | |d D\n" +
         "E  | |  E\n";
     expected[2] = prompt + "\n" + expectedHeader + body + expectedHeader;
 

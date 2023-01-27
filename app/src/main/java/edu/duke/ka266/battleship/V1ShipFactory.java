@@ -1,0 +1,38 @@
+package edu.duke.ka266.battleship;
+
+public class V1ShipFactory implements AbstractShipFactory<Character> {
+
+  private Ship<Character> createShip(Placement where, int width, int height, char data, String name) {
+    if (where.getOrientation() != 'V' && where.getOrientation() != 'H') {
+      throw new IllegalArgumentException("Orientation provided is wrong" + where.getOrientation());
+    }
+
+    if (where.getOrientation() == 'V') {
+      return new RectangleShip<Character>(name, where.getWhere(), width, height, data, '*');
+    } else {
+      return new RectangleShip<Character>(name, where.getWhere(), height, width,  data, '*');
+    }
+
+  }
+
+  @Override
+  public Ship<Character> makeSubmarine(Placement where) {
+    return createShip(where, 1, 2, 's', "Submarine");
+  }
+
+  @Override
+  public Ship<Character> makeBattleship(Placement where) {
+    return createShip(where, 1, 4, 'b', "BattleShip");
+  }
+
+  @Override
+  public Ship<Character> makeCarrier(Placement where) {
+    return createShip(where, 1, 6, 'c', "Carrier");
+  }
+
+  @Override
+  public Ship<Character> makeDestroyer(Placement where) {
+    return createShip(where, 1, 3, 'd', "Destroyer");
+  }
+
+}

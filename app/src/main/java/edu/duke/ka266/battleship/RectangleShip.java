@@ -4,16 +4,19 @@ import java.util.HashSet;
 
 public class RectangleShip<T> extends BasicShip<T> {
 
-  RectangleShip(Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData) {
+  private final String name;
+
+  RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData) {
     super(makeCoords(upperLeft, width, height), displayData);
+    this.name = name;
   }
 
-  public RectangleShip(Coordinate upperLeft, int width, int height, T data, T onHit) {
-    this(upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+  public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
+    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
   }
 
   public RectangleShip(Coordinate upperLeft, T data, T onHit) {
-    this(upperLeft, 1, 1, data, onHit);
+    this("test ship", upperLeft, 1, 1, data, onHit);
   }
 
   private static HashSet<Coordinate> makeCoords(Coordinate upperLeft, int width, int height) {
@@ -26,6 +29,11 @@ public class RectangleShip<T> extends BasicShip<T> {
     }
 
     return coordinates;
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
 }
