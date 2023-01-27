@@ -36,8 +36,8 @@ public class BattleShipBoardTest {
     BattleShipBoard<Character> b = new BattleShipBoard<Character>(3, 3);
     Character[][] expected = new Character[3][3];
 
-    BasicShip s1 = new BasicShip(new Coordinate(1, 1));
-    BasicShip s2 = new BasicShip(new Coordinate(2, 0));
+    RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
+    RectangleShip<Character> s2 = new RectangleShip<Character>(new Coordinate(2, 0), 's', '*');
 
     b.tryAddShip(s1);
     expected[1][1] = 's';

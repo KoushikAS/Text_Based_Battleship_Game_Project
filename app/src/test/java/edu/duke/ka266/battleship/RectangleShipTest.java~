@@ -1,0 +1,30 @@
+package edu.duke.ka266.battleship;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class RectangleShipTest {
+  @Test
+  public void test_RectangleShipConstructor() {
+
+    RectangleShip r1 = new RectangleShip(new Coordinate(1, 1), 2, 1);
+    assertTrue(r1.occupiesCoordinates(new Coordinate(1, 1)));
+    assertTrue(r1.occupiesCoordinates(new Coordinate(1, 2)));
+    assertFalse(r1.occupiesCoordinates(new Coordinate(2, 1)));
+
+    RectangleShip r2 = new RectangleShip(new Coordinate(1, 1), 1, 2);
+    assertTrue(r2.occupiesCoordinates(new Coordinate(1, 1)));
+    assertTrue(r2.occupiesCoordinates(new Coordinate(2, 1)));
+    assertFalse(r2.occupiesCoordinates(new Coordinate(1, 2)));
+
+    RectangleShip r3 = new RectangleShip(new Coordinate(1, 1), 2, 2);
+    assertTrue(r3.occupiesCoordinates(new Coordinate(1, 1)));
+    assertTrue(r3.occupiesCoordinates(new Coordinate(2, 1)));
+    assertTrue(r3.occupiesCoordinates(new Coordinate(1, 2)));
+    assertTrue(r3.occupiesCoordinates(new Coordinate(2, 2)));
+    assertFalse(r3.occupiesCoordinates(new Coordinate(3, 2)));
+
+  }
+
+}

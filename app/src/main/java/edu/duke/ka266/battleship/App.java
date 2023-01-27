@@ -38,7 +38,7 @@ public class App {
   public void doOnePlacement() throws IOException {
     String prompt = "Where would you like to put your ship?\n";
     Placement p = readPlacement(prompt);
-    BasicShip s = new BasicShip(p.getWhere());
+    RectangleShip<Character> s = new RectangleShip<Character>(p.getWhere(), 's', '*');
     theBoard.tryAddShip(s);
     out.print(view.displayMyOwnBoard());
   }

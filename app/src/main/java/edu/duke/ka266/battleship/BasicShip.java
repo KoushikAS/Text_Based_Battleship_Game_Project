@@ -1,19 +1,31 @@
 package edu.duke.ka266.battleship;
 
-public class BasicShip implements Ship<Character> {
+import java.util.HashMap;
 
-  private final Coordinate myLocation;
+public abstract class BasicShip<T> implements Ship<T> {
 
-  BasicShip(Coordinate loc){
-    myLocation = loc;
+  protected HashMap<Coordinate, Boolean> myPieces;
+  protected ShipDisplayInfo<T> myDisplayInfo;
+
+  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> displayInfo) {
+    myPieces = new HashMap<Coordinate, Boolean>();
+    myDisplayInfo = displayInfo;
+
+    for (Coordinate loc : where) {
+      myPieces.put(loc, false);
+    }
   }
 
   /**
-   *Returns if a ship occupies this cooridnate
-   */ 
+   * Returns if a ship occupies this cooridnate
+   */
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
-    return where.equals(myLocation);
+    if (myPieces.containsKey(where)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
@@ -25,7 +37,7 @@ public class BasicShip implements Ship<Character> {
   @Override
   public void recordHitAt(Coordinate where) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -35,12 +47,14 @@ public class BasicShip implements Ship<Character> {
   }
 
   /**
-     Returns the display information at the coordinate.
+   * Returns the display information at the coordinate.
    */
   @Override
-  public Character getDisplayInfoAt(Coordinate where) {
-    return 's';
+  public T getDisplayInfoAt(Coordinate where) {
+    // TODO this is not right. We need to
+    // look up the hit status of this coordinate
+    return myDisplayInfo.getInfo(where, false);
+
   }
-  
 
 }
