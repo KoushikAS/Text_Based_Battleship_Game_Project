@@ -1,9 +1,9 @@
 Where would you like to put your ship?
 
   0|1|2|3|4|5|6|7|8|9
-A  | | | |d| | | | |  A
-B  | | | |d| | | | |  B
-C  | | | |d| | | | |  C
+A  | | | |s| | | | |  A
+B  | | | |s| | | | |  B
+C  | | | | | | | | |  C
 D  | | | | | | | | |  D
 E  | | | | | | | | |  E
 F  | | | | | | | | |  F

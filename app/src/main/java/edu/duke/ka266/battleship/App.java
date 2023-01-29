@@ -41,7 +41,7 @@ public class App {
   public void doOnePlacement() throws IOException {
     String prompt = "Where would you like to put your ship?\n";
     Placement p = readPlacement(prompt);
-    Ship<Character> s  = shipFactory.makeDestroyer(p);
+    Ship<Character> s  = shipFactory.makeSubmarine(p);
     theBoard.tryAddShip(s);
     out.print(view.displayMyOwnBoard());
   }

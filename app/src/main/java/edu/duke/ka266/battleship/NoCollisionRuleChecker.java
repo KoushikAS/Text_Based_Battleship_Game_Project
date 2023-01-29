@@ -2,6 +2,10 @@ package edu.duke.ka266.battleship;
 
 public class NoCollisionRuleChecker<T> extends PlacementRuleChecker<T> {
 
+  /**
+   * Checks if the ship being added collides with any other ship that is already
+   * placed int the board
+   **/
   NoCollisionRuleChecker(PlacementRuleChecker<T> next) {
     super(next);
   }

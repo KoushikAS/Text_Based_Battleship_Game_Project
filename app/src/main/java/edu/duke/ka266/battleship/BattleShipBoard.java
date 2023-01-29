@@ -20,8 +20,8 @@ public class BattleShipBoard<T> implements Board<T> {
    * @throws IllegalArgumentException if the width or height are less than or
    *                                  equal to zero.
    */
-  BattleShipBoard(int w, int h,  PlacementRuleChecker<T> placementChecker) {
-  
+  BattleShipBoard(int w, int h, PlacementRuleChecker<T> placementChecker) {
+
     if (w <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + w);
     }
@@ -37,12 +37,10 @@ public class BattleShipBoard<T> implements Board<T> {
     this.placementChecker = placementChecker;
   }
 
-
-    public BattleShipBoard(int w, int h) {
+  public BattleShipBoard(int w, int h) {
     this(w, h, new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<>(null)));
   }
 
-  
   /**
    * Gets Width of BattleShipBoard
    */
@@ -64,6 +62,10 @@ public class BattleShipBoard<T> implements Board<T> {
    * 
    **/
   public boolean tryAddShip(Ship<T> toAdd) {
+    if (placementChecker.checkPlacement(toAdd, this) == false) {
+      return false;
+    }
+
     myShips.add(toAdd);
     return true;
   }

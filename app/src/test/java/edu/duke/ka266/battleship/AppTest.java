@@ -55,25 +55,25 @@ class AppTest {
 
     String expectedHeader = "  0|1|2\n";
     String body = "A  | |  A\n" +
-        "B  | |d B\n" +
-        "C  | |d C\n" +
-        "D  | |d D\n" +
+        "B  | |s B\n" +
+        "C  | |s C\n" +
+        "D  | |  D\n" +
         "E  | |  E\n";
 
     String[] expected = new String[3];
     expected[0] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
     body = "A  | |  A\n" +
-        "B  | |d B\n" +
-        "C  |d|d C\n" +
-        "D  | |d D\n" +
+        "B  | |s B\n" +
+        "C  | |s C\n" +
+        "D  | |  D\n" +
         "E  | |  E\n";
     expected[1] = prompt + "\n" + expectedHeader + body + expectedHeader;
 
-    body = "A d| |  A\n" +
-        "B d| |d B\n" +
-        "C d|d|d C\n" +
-        "D  | |d D\n" +
+    body = "A s| |  A\n" +
+        "B s| |s B\n" +
+        "C  | |s C\n" +
+        "D  | |  D\n" +
         "E  | |  E\n";
     expected[2] = prompt + "\n" + expectedHeader + body + expectedHeader;
 

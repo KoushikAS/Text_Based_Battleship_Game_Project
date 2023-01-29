@@ -39,11 +39,18 @@ public class BattleShipBoardTest {
     RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
     RectangleShip<Character> s2 = new RectangleShip<Character>(new Coordinate(2, 0), 's', '*');
 
-    b.tryAddShip(s1);
+    assertTrue(b.tryAddShip(s1));
     expected[1][1] = 's';
-    b.tryAddShip(s2);
+    assertTrue(b.tryAddShip(s2));
     expected[2][0] = 's';
 
+    checkWhatIsAtBoard(b, expected);
+
+    
+    RectangleShip<Character> s3 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
+    RectangleShip<Character> s4 = new RectangleShip<Character>(new Coordinate(5, 0), 's', '*');
+    assertFalse(b.tryAddShip(s3));
+    assertFalse(b.tryAddShip(s4));
     checkWhatIsAtBoard(b, expected);
   }
 
