@@ -33,7 +33,7 @@ public class CoordinateTest {
 
   @Test
   void test_string_constructor_valid_cases() {
-    
+
     Coordinate c1 = new Coordinate("B3");
     assertEquals(1, c1.getRow());
     assertEquals(3, c1.getColumn());
@@ -60,7 +60,6 @@ public class CoordinateTest {
     assertThrows(IllegalArgumentException.class, () -> new Coordinate("A/"));
     assertThrows(IllegalArgumentException.class, () -> new Coordinate("A:"));
     assertThrows(IllegalArgumentException.class, () -> new Coordinate("A"));
-    assertThrows(IllegalArgumentException.class, () -> new Coordinate("A12"));
     assertThrows(IllegalArgumentException.class, () -> new Coordinate(null));
     assertThrows(IllegalArgumentException.class, () -> new Coordinate("A"));
   }

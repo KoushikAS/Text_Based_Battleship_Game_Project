@@ -5,14 +5,6 @@ public class Coordinate {
   private final int row;
   private final int column;
 
-  private void parseCoordinate() {
-
-    if (this.row < 0 || this.row >= 26 || this.column < 0 || this.column > 10) {
-      throw new IllegalArgumentException(
-          "Cordinate must fit the Board (must be no larger than 10x26), but is " + this.row + "x" + this.column);
-    }
-
-  }
 
   /**
    * Reading Coordinate object from a String.
@@ -42,14 +34,12 @@ public class Coordinate {
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Row character should be an Aplha character but is " + descr.charAt(0));
     }
-    this.parseCoordinate();
 
   }
 
   Coordinate(int r, int c) {
     this.row = r;
     this.column = c;
-    this.parseCoordinate();
   }
 
   public int getRow() {

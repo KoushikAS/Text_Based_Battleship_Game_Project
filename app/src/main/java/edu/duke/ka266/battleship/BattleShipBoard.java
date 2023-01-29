@@ -7,6 +7,7 @@ public class BattleShipBoard<T> implements Board<T> {
 
   private final int width;
   private final int height;
+  private final PlacementRuleChecker<T> placementChecker;
 
   final ArrayList<Ship<T>> myShips;
 
@@ -19,8 +20,8 @@ public class BattleShipBoard<T> implements Board<T> {
    * @throws IllegalArgumentException if the width or height are less than or
    *                                  equal to zero.
    */
-  BattleShipBoard(int w, int h) {
-
+  BattleShipBoard(int w, int h,  PlacementRuleChecker<T> placementChecker) {
+  
     if (w <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + w);
     }
@@ -32,8 +33,16 @@ public class BattleShipBoard<T> implements Board<T> {
     this.width = w;
     this.height = h;
     myShips = new ArrayList<>();
+
+    this.placementChecker = placementChecker;
   }
 
+
+    public BattleShipBoard(int w, int h) {
+    this(w, h, new InBoundsRuleChecker<T>(null));
+  }
+
+  
   /**
    * Gets Width of BattleShipBoard
    */
@@ -67,10 +76,10 @@ public class BattleShipBoard<T> implements Board<T> {
    */
   public T whatIsAt(Coordinate where) {
 
-    if(where.getRow() >  height || where. getColumn() >  width){
+    if (where.getRow() > height || where.getColumn() > width) {
       throw new IllegalArgumentException("Coordinate system provided is out of board area");
     }
-    
+
     for (Ship<T> s : myShips) {
       if (s.occupiesCoordinates(where)) {
         return s.getDisplayInfoAt(where);
