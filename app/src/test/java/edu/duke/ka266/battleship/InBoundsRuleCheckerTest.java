@@ -12,14 +12,14 @@ public class InBoundsRuleCheckerTest {
     BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(2, 2, ruleChecker);
     V1ShipFactory shipFactory = new V1ShipFactory();
 
-    assertTrue(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
-    assertTrue(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'v')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'h')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("B0"), 'v')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("C1"), 'h')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate("B11"), 'v')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate(-1, 0), 'h')), b1));
-    assertFalse(ruleChecker.checkMyRule(shipFactory.makeSubmarine(new Placement(new Coordinate(1, 0), 'v')), b1));
+    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
+    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'v')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'h')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B0"), 'v')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("C1"), 'h')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B11"), 'v')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(-1, 0), 'h')), b1));
+    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(1, 0), 'v')), b1));
 
   }
 
