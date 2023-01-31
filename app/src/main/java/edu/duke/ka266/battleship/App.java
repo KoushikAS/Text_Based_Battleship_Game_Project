@@ -6,51 +6,33 @@ package edu.duke.ka266.battleship;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.Reader;
 
 public class App {
 
-  final Board<Character> theBoard;
-  final BoardTextView view;
-  final BufferedReader inputReader;
-  final PrintStream out;
-  final AbstractShipFactory<Character> shipFactory;
+  final TextPlayer player1;
+  final TextPlayer player2;
 
-
-  public App(Board<Character> theBoard, Reader inputSource, PrintStream out, AbstractShipFactory<Character> shipFactory) {
-    this.theBoard = theBoard;
-    this.view = new BoardTextView(theBoard);
-    this.out = out;
-    this.inputReader = new BufferedReader(inputSource);
-    this.shipFactory = shipFactory;
+  public App(TextPlayer player1, TextPlayer player2) {
+    this.player1 = player1;
+    this.player2 = player2;
   }
 
-  /**
-   * Reading Input form user and placeing the ship. 
-   */
-  public Placement readPlacement(String prompt) throws IOException {
-    out.println(prompt);
-    String s = inputReader.readLine();
-    return new Placement(s);
-  }
-
-  /**
-   * Adding One Basic ship to the board.
-   */
-  public void doOnePlacement() throws IOException {
-    String prompt = "Where would you like to put your ship?\n";
-    Placement p = readPlacement(prompt);
-    Ship<Character> s  = shipFactory.makeSubmarine(p);
-    theBoard.tryAddShip(s);
-    out.print(view.displayMyOwnBoard());
+  public void doPlacementPhase() throws IOException {
+    player1.doOnePlacement();
+    player2.doOnePlacement();
   }
 
   public static void main(String[] args) throws IOException {
+    Board<Character> b1 = new BattleShipBoard<Character>(10, 20);
+    Board<Character> b2 = new BattleShipBoard<Character>(10, 20);
+    BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+    V1ShipFactory factory = new V1ShipFactory();
+    TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
+    TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
 
-    App app = new App(new BattleShipBoard<Character>(10, 20), new InputStreamReader(System.in), System.out, new V1ShipFactory());
+    App app = new App(p1, p2);
 
-    app.doOnePlacement();
+    app.doPlacementPhase();
 
   }
 }
