@@ -46,9 +46,22 @@ public class TextPlayer {
    * Adding One Basic ship to the board.
    */
   public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
-    Placement p = readPlacement("Player " + TextPlayer + " where do you want to place a " + shipName + "?");
-    Ship<Character> s = createFn.apply(p);
-    theBoard.tryAddShip(s);
+
+    while (true) {
+      try {
+        Placement p = readPlacement("Player " + TextPlayer + " where do you want to place a " + shipName + "?");
+        Ship<Character> s = createFn.apply(p);
+        String errorMessage = theBoard.tryAddShip(s);
+        if (errorMessage != null) {
+          out.print(errorMessage + "\n");
+        } else {
+          break;
+        }
+      } catch (IllegalArgumentException e) {
+        out.print("That placement is invalid: it does not have the correct format." + "\n");
+      }
+
+    }
     out.print(view.displayMyOwnBoard());
   }
 

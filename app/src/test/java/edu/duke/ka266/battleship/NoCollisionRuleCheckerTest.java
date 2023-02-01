@@ -12,11 +12,16 @@ public class NoCollisionRuleCheckerTest {
     V1ShipFactory shipFactory = new V1ShipFactory();
 
     b1.tryAddShip(shipFactory.makeSubmarine(new Placement(new Coordinate("B2"), 'v')));
+    String expected = "That placement is invalid: the ship overlaps another ship.";
 
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'h')), b1));
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'v')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'h')), b1));
 
   }
 
@@ -27,20 +32,32 @@ public class NoCollisionRuleCheckerTest {
     V1ShipFactory shipFactory = new V1ShipFactory();
 
     b1.tryAddShip(shipFactory.makeSubmarine(new Placement(new Coordinate("B2"), 'v')));
+    String expected = "That placement is invalid: the ship overlaps another ship.";
 
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'h')), b1));
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
-    assertTrue(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("C1"), 'h')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("E1"), 'h')), b1));
-     assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B11"), 'v')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(-1, 0), 'h')), b1));
-    assertFalse(ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(0, -1), 'v')), b1));
-
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'v')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B1"), 'h')), b1));
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A0"), 'h')), b1));
+    assertEquals(null,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A1"), 'v')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("C1"), 'h')), b1));
+    assertEquals(expected,
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("A2"), 'v')), b1));
+    assertEquals("That placement is invalid: the ship goes off the bottom of the board.",
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("E1"), 'h')), b1));
+    assertEquals("That placement is invalid: the ship goes off the right of the board.",
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate("B11"), 'v')), b1));
+    assertEquals("That placement is invalid: the ship goes off the top of the board.",
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(-1, 0), 'h')), b1));
+    assertEquals("That placement is invalid: the ship goes off the left of the board.",
+        ruleChecker.checkPlacement(shipFactory.makeSubmarine(new Placement(new Coordinate(0, -1), 'v')), b1));
   }
 
 }
