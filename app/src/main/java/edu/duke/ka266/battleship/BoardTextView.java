@@ -1,5 +1,7 @@
 package edu.duke.ka266.battleship;
 
+import java.util.function.Function;
+
 /**
  * This class handles textual display of
  * a Board (i.e., converting it to a string to show
@@ -45,12 +47,8 @@ public class BoardTextView {
     return ans.toString();
   }
 
-
-  /**
-   * Displaying theBoard in a Textual format.
-   */
-  public String displayMyOwnBoard() {
-    StringBuilder ans = new StringBuilder("");
+protected String displayAnyBoard(Function<Coordinate, Character> getSquareFn){
+   StringBuilder ans = new StringBuilder("");
 
     ans.append(makeHeader());
 
@@ -61,7 +59,7 @@ public class BoardTextView {
       for (int j = 0; j < toDisplay.getWidth(); j++) {
         ans.append(sep);
 
-        Character cell = toDisplay.whatIsAt(new Coordinate(i, j));
+        Character cell = getSquareFn.apply(new Coordinate(i, j));
         if (cell == null) {
           ans.append(" ");
         } else {
@@ -76,6 +74,20 @@ public class BoardTextView {
     ans.append(makeHeader());
 
     return ans.toString();
+}
+  
+  /**
+   * Displaying theBoard in a Textual format for self.
+   */
+  public String displayMyOwnBoard() {
+    return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
+  }
+
+    /**
+   * Displaying theBoard in a Textual format for Enemy.
+   */
+  public String displayEnemyBoard() {
+    return displayAnyBoard((c)->toDisplay.whatIsAtForEnemy(c));
   }
 
 }

@@ -6,13 +6,14 @@ public class RectangleShip<T> extends BasicShip<T> {
 
   private final String name;
 
-  RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData) {
-    super(makeCoords(upperLeft, width, height), displayData);
+  RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData,  ShipDisplayInfo<T> enemyDisplayData) {
+    super(makeCoords(upperLeft, width, height), displayData, enemyDisplayData);
     this.name = name;
   }
 
   public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
-    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit),
+        new SimpleShipDisplayInfo<T>(null, data));
   }
 
   public RectangleShip(Coordinate upperLeft, T data, T onHit) {

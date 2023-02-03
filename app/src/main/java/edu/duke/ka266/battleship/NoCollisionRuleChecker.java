@@ -15,7 +15,7 @@ public class NoCollisionRuleChecker<T> extends PlacementRuleChecker<T> {
 
     for (Coordinate coordinate : theShip.getCoordinates()) {
       try {
-        if (theBoard.whatIsAt(coordinate) != null) {
+        if (theBoard.whatIsAtForSelf(coordinate) != null) {
           return "That placement is invalid: the ship overlaps another ship.";
         }
       } catch (IllegalArgumentException e) {

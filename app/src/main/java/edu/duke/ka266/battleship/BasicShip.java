@@ -7,11 +7,12 @@ public abstract class BasicShip<T> implements Ship<T> {
 
   protected HashMap<Coordinate, Boolean> myPieces;
   protected ShipDisplayInfo<T> myDisplayInfo;
+  protected ShipDisplayInfo<T> enemyDisplayInfo;
 
-  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> displayInfo) {
+  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> displayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
     myPieces = new HashMap<Coordinate, Boolean>();
     myDisplayInfo = displayInfo;
-
+    this.enemyDisplayInfo = enemyDisplayInfo;
     for (Coordinate loc : where) {
       myPieces.put(loc, false);
     }
@@ -72,13 +73,21 @@ public abstract class BasicShip<T> implements Ship<T> {
    * Note throws an exception if the coorinates are not present in the ship
    */
   @Override
-  public T getDisplayInfoAt(Coordinate where) {
+  public T getDisplayInfoAt(Coordinate where, boolean myShip) {
     checkCoordinateInThisShip(where);
 
+
+    if(myShip == true){
     if (myPieces.get(where).equals(true)) {
       return myDisplayInfo.getInfo(where, true);
     } else {
       return myDisplayInfo.getInfo(where, false);
+    }
+    }
+     if (myPieces.get(where).equals(true)) {
+      return enemyDisplayInfo.getInfo(where, true);
+    } else {
+      return enemyDisplayInfo.getInfo(where, false);
     }
   }
 

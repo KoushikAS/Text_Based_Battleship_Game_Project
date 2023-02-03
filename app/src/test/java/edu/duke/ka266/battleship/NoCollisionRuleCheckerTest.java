@@ -8,7 +8,7 @@ public class NoCollisionRuleCheckerTest {
   @Test
   public void test_checkMyRule() {
     NoCollisionRuleChecker<Character> ruleChecker = new NoCollisionRuleChecker<>(null);
-    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(3, 3, ruleChecker);
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(3, 3, ruleChecker, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
 
     b1.tryAddShip(shipFactory.makeSubmarine(new Placement(new Coordinate("B2"), 'v')));
@@ -28,7 +28,7 @@ public class NoCollisionRuleCheckerTest {
   @Test
   public void test_NoCollisionInboundRuleChecker() {
     NoCollisionRuleChecker<Character> ruleChecker = new NoCollisionRuleChecker<>(new InBoundsRuleChecker<>(null));
-    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(3, 3, ruleChecker);
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(3, 3, ruleChecker, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
 
     b1.tryAddShip(shipFactory.makeSubmarine(new Placement(new Coordinate("B2"), 'v')));

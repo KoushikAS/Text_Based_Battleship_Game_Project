@@ -43,15 +43,18 @@ public interface Ship<T> {
    */
   public boolean wasHitAt(Coordinate where);
 
+  
+
   /**
    * Return the view-specific information at the given coordinate. This coordinate
    * must be part of the ship.
    * 
    * @param where is the coordinate to return information for
+   * @param myShip is to indicate if the Display info is for me or enemey
    * @throws IllegalArgumentException if where is not part of the Ship
    * @return The view-specific information at that coordinate.
    */
-  public T getDisplayInfoAt(Coordinate where);
+  public T getDisplayInfoAt(Coordinate where, boolean myShip);
 
   /**
    * Get the name of this Ship, such as "submarine".

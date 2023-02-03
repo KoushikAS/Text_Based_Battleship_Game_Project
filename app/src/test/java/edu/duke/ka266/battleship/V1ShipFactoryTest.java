@@ -18,18 +18,18 @@ public class V1ShipFactoryTest {
     assertEquals(s1.getName(), "Submarine");
     for (int i = 1; i <= 2; i++) {
       assertTrue(s1.occupiesCoordinates(new Coordinate(i, 1)));
-      assertEquals(s1.getDisplayInfoAt(new Coordinate(i,1)), 's');
+      assertEquals(s1.getDisplayInfoAt(new Coordinate(i, 1), true), 's');
     }
 
     Placement p3 = new Placement(new Coordinate(1, 1), 'h');
     Ship<Character> s2 = v1.makeSubmarine(p3);
     for (int i = 1; i <= 2; i++) {
       assertTrue(s2.occupiesCoordinates(new Coordinate(1, i)));
-      assertEquals(s2.getDisplayInfoAt(new Coordinate(1,i)), 's');
+      assertEquals(s2.getDisplayInfoAt(new Coordinate(1, i), true), 's');
     }
   }
 
-@Test
+  @Test
   public void test_makeBattleShip() {
 
     Placement p1 = new Placement(new Coordinate(1, 1), 'o');
@@ -41,19 +41,18 @@ public class V1ShipFactoryTest {
     assertEquals(s1.getName(), "BattleShip");
     for (int i = 1; i <= 2; i++) {
       assertTrue(s1.occupiesCoordinates(new Coordinate(i, 1)));
-      assertEquals(s1.getDisplayInfoAt(new Coordinate(i,1)), 'b');
+      assertEquals(s1.getDisplayInfoAt(new Coordinate(i, 1), true), 'b');
     }
 
     Placement p3 = new Placement(new Coordinate(1, 1), 'h');
     Ship<Character> s2 = v1.makeBattleship(p3);
     for (int i = 1; i <= 2; i++) {
       assertTrue(s2.occupiesCoordinates(new Coordinate(1, i)));
-      assertEquals(s2.getDisplayInfoAt(new Coordinate(1,i)), 'b');
+      assertEquals(s2.getDisplayInfoAt(new Coordinate(1, i), true), 'b');
     }
   }
 
-  
-@Test
+  @Test
   public void test_makeCarrier() {
 
     Placement p1 = new Placement(new Coordinate(1, 1), 'o');
@@ -65,19 +64,18 @@ public class V1ShipFactoryTest {
     assertEquals(s1.getName(), "Carrier");
     for (int i = 1; i <= 2; i++) {
       assertTrue(s1.occupiesCoordinates(new Coordinate(i, 1)));
-      assertEquals(s1.getDisplayInfoAt(new Coordinate(i,1)), 'c');
+      assertEquals(s1.getDisplayInfoAt(new Coordinate(i, 1), true), 'c');
     }
 
     Placement p3 = new Placement(new Coordinate(1, 1), 'h');
     Ship<Character> s2 = v1.makeCarrier(p3);
     for (int i = 1; i <= 2; i++) {
       assertTrue(s2.occupiesCoordinates(new Coordinate(1, i)));
-      assertEquals(s2.getDisplayInfoAt(new Coordinate(1,i)), 'c');
+      assertEquals(s2.getDisplayInfoAt(new Coordinate(1, i), true), 'c');
     }
   }
 
-  
-@Test
+  @Test
   public void test_makeDestroyer() {
 
     Placement p1 = new Placement(new Coordinate(1, 1), 'o');
@@ -89,16 +87,15 @@ public class V1ShipFactoryTest {
     assertEquals(s1.getName(), "Destroyer");
     for (int i = 1; i <= 2; i++) {
       assertTrue(s1.occupiesCoordinates(new Coordinate(i, 1)));
-      assertEquals(s1.getDisplayInfoAt(new Coordinate(i,1)), 'd');
+      assertEquals(s1.getDisplayInfoAt(new Coordinate(i, 1), true), 'd');
     }
 
     Placement p3 = new Placement(new Coordinate(1, 1), 'h');
     Ship<Character> s2 = v1.makeDestroyer(p3);
     for (int i = 1; i <= 2; i++) {
       assertTrue(s2.occupiesCoordinates(new Coordinate(1, i)));
-      assertEquals(s2.getDisplayInfoAt(new Coordinate(1,i)), 'd');
+      assertEquals(s2.getDisplayInfoAt(new Coordinate(1, i), true), 'd');
     }
   }
 
-  
 }

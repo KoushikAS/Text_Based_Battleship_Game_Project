@@ -9,7 +9,7 @@ public class InBoundsRuleCheckerTest {
   public void test_CheckMyRule() {
 
     InBoundsRuleChecker<Character> ruleChecker = new InBoundsRuleChecker<>(null);
-    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(2, 2, ruleChecker);
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(2, 2, ruleChecker, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
 
     assertEquals(null,
