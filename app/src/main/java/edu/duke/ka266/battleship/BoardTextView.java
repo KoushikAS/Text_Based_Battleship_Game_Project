@@ -47,8 +47,8 @@ public class BoardTextView {
     return ans.toString();
   }
 
-protected String displayAnyBoard(Function<Coordinate, Character> getSquareFn){
-   StringBuilder ans = new StringBuilder("");
+  protected String displayAnyBoard(Function<Coordinate, Character> getSquareFn) {
+    StringBuilder ans = new StringBuilder("");
 
     ans.append(makeHeader());
 
@@ -74,20 +74,44 @@ protected String displayAnyBoard(Function<Coordinate, Character> getSquareFn){
     ans.append(makeHeader());
 
     return ans.toString();
-}
-  
+  }
+
   /**
    * Displaying theBoard in a Textual format for self.
    */
   public String displayMyOwnBoard() {
-    return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
+    return displayAnyBoard((c) -> toDisplay.whatIsAtForSelf(c));
   }
 
-    /**
+  /**
    * Displaying theBoard in a Textual format for Enemy.
    */
   public String displayEnemyBoard() {
-    return displayAnyBoard((c)->toDisplay.whatIsAtForEnemy(c));
+    return displayAnyBoard((c) -> toDisplay.whatIsAtForEnemy(c));
+  }
+
+  public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+    String[] myBoardDisplay = this.displayMyOwnBoard().split("\n");
+    String[] enemyBoardDisplay = enemyView.displayEnemyBoard().split("\n");
+
+    String[] display = new String[this.toDisplay.getHeight() + 3];
+
+    StringBuilder headerDisplay = new StringBuilder();
+    headerDisplay.append(" ".repeat(4 * this.toDisplay.getWidth() + 25));
+  
+    headerDisplay.insert(5, myHeader);
+      headerDisplay.insert((2 * this.toDisplay.getWidth()) + 22, enemyHeader);
+      display[0] = headerDisplay.toString();
+      
+      for(int i =0; i <myBoardDisplay.length ;i++ ){
+      StringBuilder boardDisplay = new StringBuilder();
+      boardDisplay.append(" ".repeat(4 * this.toDisplay.getWidth() + 25));    
+      boardDisplay.insert(0, myBoardDisplay[i]);
+      boardDisplay.insert((2 * this.toDisplay.getWidth()) + 19,
+      enemyBoardDisplay[i]);
+      display[i+1] = boardDisplay.toString();
+      }
+    return String.join("\n", display);
   }
 
 }

@@ -13,7 +13,6 @@ public class BoardTextViewTest {
     assertEquals(expected, view.displayMyOwnBoard());
   }
 
-  
   private void emptyEnemyBoardHelper(Board<Character> b1, String expectedHeader, String body) {
     BoardTextView view = new BoardTextView(b1);
     assertEquals(expectedHeader, view.makeHeader());
@@ -21,6 +20,11 @@ public class BoardTextViewTest {
     assertEquals(expected, view.displayEnemyBoard());
   }
 
+  private void emptySideBySideBoardHelper(Board<Character> b1, Board<Character> b2, String expected) {
+    BoardTextView view = new BoardTextView(b1);
+    BoardTextView enemyView = new BoardTextView(b2);
+    assertEquals(expected, view.displayMyBoardWithEnemyNextToIt(enemyView, "Your Ocean", "Enemy Ocean"));
+  }
 
   @Test
   public void test_display_empty_2by2() {
@@ -94,7 +98,6 @@ public class BoardTextViewTest {
     emptyBoardHelper(b1, expectedHeader, body);
   }
 
-  
   @Test
   public void test_displayEnemy_empty_3by5() {
     Board<Character> b1 = new BattleShipBoard<Character>(3, 5, 'X');
@@ -108,7 +111,7 @@ public class BoardTextViewTest {
     emptyEnemyBoardHelper(b1, expectedHeader, body);
   }
 
-    @Test
+  @Test
   public void test_displayenemyBoard_3by5() {
     Board<Character> b1 = new BattleShipBoard<Character>(3, 5, 'X');
     RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
@@ -118,8 +121,8 @@ public class BoardTextViewTest {
     RectangleShip<Character> s3 = new RectangleShip<Character>(new Coordinate(4, 2), 's', '*');
     b1.tryAddShip(s3);
 
-    b1.fireAt(new Coordinate(0,0));
-    b1.fireAt(new Coordinate(1,1));
+    b1.fireAt(new Coordinate(0, 0));
+    b1.fireAt(new Coordinate(1, 1));
     String expectedHeader = "  0|1|2\n";
     String body = "A X| |  A\n" +
         "B  |s|  B\n" +
@@ -128,5 +131,37 @@ public class BoardTextViewTest {
         "E  | |  E\n";
 
     emptyEnemyBoardHelper(b1, expectedHeader, body);
+  }
+
+  @Test
+  public void test_displaySideBySideBoard_empty_3by5() {
+    Board<Character> b1 = new BattleShipBoard<Character>(3, 3, 'X');
+    String expectedHeader = "  0|1|2\n";
+    String body = "     Your Ocean             Enemy Ocean                   \n" +
+        "  0|1|2                    0|1|2                   \n" +
+        "A  | |  A                A  | |  A                     \n" +
+        "B  | |  B                B  | |  B                     \n" +
+        "C  | |  C                C  | |  C                     \n" +
+        "  0|1|2                    0|1|2                   ";
+    emptySideBySideBoardHelper(b1, b1, body);
+  }
+
+  @Test
+  public void test_displaySideBySideBoard_3by3() {
+    Board<Character> b1 = new BattleShipBoard<Character>(3, 3, 'X');
+    RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
+    b1.tryAddShip(s1);
+    RectangleShip<Character> s2 = new RectangleShip<Character>(new Coordinate(2, 0), 's', '*');
+    b1.tryAddShip(s2);
+    b1.fireAt(new Coordinate(0, 0));
+    b1.fireAt(new Coordinate(1, 1));
+    String expectedHeader = "  0|1|2\n";
+    String body = "     Your Ocean             Enemy Ocean                   \n" +
+        "  0|1|2                    0|1|2                   \n" +
+        "A  | |  A                A X| |  A                     \n" +
+        "B  |*|  B                B  |s|  B                     \n" +
+        "C s| |  C                C  | |  C                     \n" +
+        "  0|1|2                    0|1|2                   ";
+    emptySideBySideBoardHelper(b1, b1, body);
   }
 }
