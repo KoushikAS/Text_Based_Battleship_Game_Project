@@ -34,5 +34,21 @@ public class App {
 
     app.doPlacementPhase();
 
+    while (true) {
+      // Player 1 Turn
+      p1.playOneTurn(p2.theBoard, p2.view, p2.TextPlayer);
+      if (p2.checkLost()) {
+        System.out.print("Player "+ p2.TextPlayer+" Lost!\n");
+        break;
+      }
+
+      // Player 2 turn
+      p2.playOneTurn(p1.theBoard, p1.view, p1.TextPlayer);
+      if (p1.checkLost()) {
+        System.out.print("Player "+ p1.TextPlayer +" Lost!\n");
+        break;
+      }
+    }
+
   }
 }

@@ -2,6 +2,7 @@ package edu.duke.ka266.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -110,4 +114,16 @@ public class TextPlayerTest {
     assertTrue(player.checkLost());
   }
 
+  //Not properly tested
+  @Test
+  void test_playOneTurn() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+     TextPlayer player = createTextPlayer(3, 3, "BV\nB0", bytes);
+
+     player.theBoard.tryAddShip( new V1ShipFactory().makeSubmarine(new Placement("A0V")));
+      player.playOneTurn(player.theBoard, player.view, "B");
+
+  }
+  
 }

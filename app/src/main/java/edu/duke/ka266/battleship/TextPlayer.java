@@ -100,7 +100,35 @@ public class TextPlayer {
     shipsToPlace.addAll(Collections.nCopies(6, "Carrier"));
   }
 
-  public boolean checkLost(){
+  public boolean checkLost() {
     return this.theBoard.isAllShipsDestroyed();
+  }
+
+  /**
+   * Reading Input form user to attack.
+   */
+  public Coordinate readCoordinate(String prompt) throws IOException {
+    out.println(prompt);
+    String s = inputReader.readLine();
+    return new Coordinate(s);
+  }
+
+  public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
+    out.print("Player " + this.TextPlayer + "'s turn:\n");
+    out.print(this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName +"'s ocean"));
+    while (true) {
+      try {
+        Coordinate c = readCoordinate("\nPlayer " + TextPlayer + " where do you want to fire ?\n");
+        Ship<Character> s = enemyBoard.fireAt(c);
+        if (s == null) {
+          out.print("You missed!\n");
+        } else {
+          out.print("You hit " + s.getName() + "!\n");
+        }
+        break;
+      } catch (IllegalArgumentException e) {
+        out.print("That placement is invalid: it does not have the correct format." + "\n");
+      }
+    }
   }
 }

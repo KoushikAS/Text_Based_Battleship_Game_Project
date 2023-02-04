@@ -1,0 +1,11 @@
+Player A's turn:
+         Your ocean             Player B's ocean                   
+      0|1|2                    0|1|2                   
+    A s| |  A                A  | |  A                     
+    B s| |  B                B  | |  B                     
+    C  | |  C                C  | |  C                     
+    D  | |  D                D  | |  D                     
+    E  | |  E                E  | |  E                     
+      0|1|2                    0|1|2                   
+    Player A where do you want to fire ?
+    You missed!
