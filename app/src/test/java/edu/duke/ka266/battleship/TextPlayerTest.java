@@ -1,15 +1,15 @@
 package edu.duke.ka266.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.nio.file.Files;
 
 import org.junit.jupiter.api.Test;
 
@@ -65,14 +65,16 @@ public class TextPlayerTest {
         "C  | |s C\n" +
         "D  | |  D\n" +
         "E  | |  E\n";
-    expected[1] = prompt +"\nThat placement is invalid: it does not have the correct format.\n" +prompt + "\n" + expectedHeader + body + expectedHeader;
+    expected[1] = prompt + "\nThat placement is invalid: it does not have the correct format.\n" + prompt + "\n"
+        + expectedHeader + body + expectedHeader;
 
     body = "A s|s|  A\n" +
         "B s|s|s B\n" +
         "C  | |s C\n" +
         "D  | |  D\n" +
         "E  | |  E\n";
-    expected[2] = prompt +"\nThat placement is invalid: the ship overlaps another ship.\n" + prompt +  "\n" + expectedHeader + body + expectedHeader;
+    expected[2] = prompt + "\nThat placement is invalid: the ship overlaps another ship.\n" + prompt + "\n"
+        + expectedHeader + body + expectedHeader;
 
     for (int i = 0; i < 3; i++) {
       player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
@@ -93,6 +95,19 @@ public class TextPlayerTest {
 
     player.doPlacementPhase();
     assertEquals(expected, bytes.toString());
+  }
+
+  @Test
+  void test_checkLost() throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+    TextPlayer player = createTextPlayer(3, 5, "B2v", bytes);
+    player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
+    assertFalse(player.checkLost());
+    player.theBoard.fireAt(new Coordinate(1, 2));
+    assertFalse(player.checkLost());
+    player.theBoard.fireAt(new Coordinate(2, 2));
+    assertTrue(player.checkLost());
   }
 
 }

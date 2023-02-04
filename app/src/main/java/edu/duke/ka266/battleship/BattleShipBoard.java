@@ -138,4 +138,17 @@ public class BattleShipBoard<T> implements Board<T> {
     this.enemyMisses.add(where);
     return null;
   }
+
+  
+  /**
+     This method tell if all the ships placed in the board are destroyed..
+   **/
+  public boolean isAllShipsDestroyed(){
+    for(Ship<T> ship : myShips){
+      if(ship.isSunk() == false){
+        return false;
+      }
+    }
+    return true;
+  }
 }

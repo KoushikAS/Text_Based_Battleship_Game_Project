@@ -100,4 +100,7 @@ public class TextPlayer {
     shipsToPlace.addAll(Collections.nCopies(6, "Carrier"));
   }
 
+  public boolean checkLost(){
+    return this.theBoard.isAllShipsDestroyed();
+  }
 }

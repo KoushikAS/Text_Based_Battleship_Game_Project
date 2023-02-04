@@ -94,4 +94,21 @@ public class BattleShipBoardTest {
     assertThrows(IllegalArgumentException.class, () -> b.fireAt(new Coordinate(4, 0)));
     assertThrows(IllegalArgumentException.class, () -> b.fireAt(new Coordinate(0, 4)));
   }
+
+  @Test
+  public void test_isAllShipsDestroyed() {
+    BattleShipBoard<Character> b = new BattleShipBoard<Character>(3, 3, 'X');
+    RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
+    b.tryAddShip(s1);
+
+    assertFalse(b.isAllShipsDestroyed());
+    b.fireAt(new Coordinate(1, 1));
+    assertTrue(b.isAllShipsDestroyed());
+    RectangleShip<Character> s2 = new RectangleShip<Character>(new Coordinate(0, 0), 's', '*');
+    b.tryAddShip(s2);
+
+    assertFalse(b.isAllShipsDestroyed());
+    b.fireAt(new Coordinate(0, 0));
+    assertTrue(b.isAllShipsDestroyed());
+  }
 }

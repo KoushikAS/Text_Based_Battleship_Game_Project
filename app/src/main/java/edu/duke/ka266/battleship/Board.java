@@ -39,4 +39,9 @@ public interface Board<T> {
    * Fires at the coordinate specified.
    */
   public Ship<T> fireAt(Coordinate c);
+
+  /**
+     This method tell if all the ships placed in the board are destroyed..
+   **/
+  public boolean isAllShipsDestroyed();
 }
