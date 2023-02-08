@@ -115,7 +115,7 @@ public class TextPlayer {
   }
 
 
-  /**
+ /**
      Move ship
    **/
   public void moveShip() throws IOException{
@@ -136,10 +136,28 @@ public class TextPlayer {
       return;
     }
 
-    Iterable<Coordinate>  oldCoordinates = shiptoMove.getCoordinates();
+    Coordinate newUpperLeft;
+    try{
+      newUpperLeft = readCoordinate("Please enter the new coordinates where you want to move the ship.");
+    } catch(IllegalArgumentException e){
+      out.print("The Coordinate selected is invalid.");
+      this.theBoard.tryAddShip(shiptoMove);
+      return;
+    }
     
+    Coordinate oldUpperLeft = shiptoMove.getUpperLeftCoordinate();
+    shiptoMove.MoveCoordiantes(newUpperLeft);
     
+    try{
+      this.theBoard.tryAddShip(shiptoMove);
+    } catch(IllegalArgumentException e){
+      out.print("Ship was not moved");
+      shiptoMove.MoveCoordiantes(oldUpperLeft);
+      this.theBoard.tryAddShip(shiptoMove);
+      return;
+    }    
   }
+
 
   
   /**
