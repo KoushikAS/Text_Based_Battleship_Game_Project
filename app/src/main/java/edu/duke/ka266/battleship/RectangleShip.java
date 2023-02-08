@@ -1,14 +1,13 @@
 package edu.duke.ka266.battleship;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class RectangleShip<T> extends BasicShip<T> {
 
-  private final String name;
-
-  RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData,  ShipDisplayInfo<T> enemyDisplayData) {
-    super(makeCoords(upperLeft, width, height), displayData, enemyDisplayData);
-    this.name = name;
+  RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> displayData,
+      ShipDisplayInfo<T> enemyDisplayData) {
+    super(makeCoords(upperLeft, width, height), displayData, enemyDisplayData, name, upperLeft);
   }
 
   public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
@@ -32,9 +31,5 @@ public class RectangleShip<T> extends BasicShip<T> {
     return coordinates;
   }
 
-  @Override
-  public String getName() {
-    return name;
-  }
-
+  
 }

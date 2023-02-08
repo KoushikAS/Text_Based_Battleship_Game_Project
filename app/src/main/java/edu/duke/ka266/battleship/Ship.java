@@ -43,13 +43,11 @@ public interface Ship<T> {
    */
   public boolean wasHitAt(Coordinate where);
 
-  
-
   /**
    * Return the view-specific information at the given coordinate. This coordinate
    * must be part of the ship.
    * 
-   * @param where is the coordinate to return information for
+   * @param where  is the coordinate to return information for
    * @param myShip is to indicate if the Display info is for me or enemey
    * @throws IllegalArgumentException if where is not part of the Ship
    * @return The view-specific information at that coordinate.
@@ -65,9 +63,23 @@ public interface Ship<T> {
 
   /**
    * Get all of the Coordinates that this Ship occupies.
+   * 
    * @return An Iterable with the coordinates that this Ship occupies
    */
   public Iterable<Coordinate> getCoordinates();
 
+  /**
+   * Moves the ship to the new upper left
+   **/
+  public void MoveCoordiantes(Coordinate newUpperLeft);
+
+  /**
+   * Gets the Upper Left Corner of the ship coordiante.
+   * 
+   * Note: With ships that are not rectangular, we define
+   * this top left corner to be the corner of the smallest rectangle
+   * which fully encloses the ship.
+   **/
+  public Coordinate getUpperLeftCoordinate();
 
 }

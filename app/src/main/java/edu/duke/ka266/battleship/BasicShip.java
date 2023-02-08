@@ -8,14 +8,19 @@ public abstract class BasicShip<T> implements Ship<T> {
   protected HashMap<Coordinate, Boolean> myPieces;
   protected ShipDisplayInfo<T> myDisplayInfo;
   protected ShipDisplayInfo<T> enemyDisplayInfo;
+  protected final String name;
+  protected Coordinate upperLeft;
 
-  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> displayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
+  public BasicShip(Iterable<Coordinate> where, ShipDisplayInfo<T> displayInfo, ShipDisplayInfo<T> enemyDisplayInfo,
+      String name, Coordinate upperLeft) {
     myPieces = new HashMap<Coordinate, Boolean>();
     myDisplayInfo = displayInfo;
     this.enemyDisplayInfo = enemyDisplayInfo;
     for (Coordinate loc : where) {
       myPieces.put(loc, false);
     }
+    this.name = name;
+    this.upperLeft = upperLeft;
   }
 
   /**
@@ -76,15 +81,14 @@ public abstract class BasicShip<T> implements Ship<T> {
   public T getDisplayInfoAt(Coordinate where, boolean myShip) {
     checkCoordinateInThisShip(where);
 
-
-    if(myShip == true){
+    if (myShip == true) {
+      if (myPieces.get(where).equals(true)) {
+        return myDisplayInfo.getInfo(where, true);
+      } else {
+        return myDisplayInfo.getInfo(where, false);
+      }
+    }
     if (myPieces.get(where).equals(true)) {
-      return myDisplayInfo.getInfo(where, true);
-    } else {
-      return myDisplayInfo.getInfo(where, false);
-    }
-    }
-     if (myPieces.get(where).equals(true)) {
       return enemyDisplayInfo.getInfo(where, true);
     } else {
       return enemyDisplayInfo.getInfo(where, false);
@@ -113,6 +117,37 @@ public abstract class BasicShip<T> implements Ship<T> {
   @Override
   public Iterable<Coordinate> getCoordinates() {
     return myPieces.keySet();
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public Coordinate getUpperLeftCoordinate(){
+    return this.upperLeft;
+  }
+
+  /**
+   * Move the ship to the new coordiantes
+   **/
+  @Override
+  public void MoveCoordiantes(Coordinate newUpperLeft) {
+
+    int diffRow = newUpperLeft.getRow() - this.upperLeft.getRow();
+    int diffColumn = newUpperLeft.getColumn() - this.upperLeft.getColumn();
+    HashMap<Coordinate, Boolean> newMap = new HashMap<Coordinate, Boolean>();
+    
+    for (Coordinate coordinate : this.myPieces.keySet()) {
+      Boolean value = this.myPieces.get(coordinate);
+      //      this.myPieces.remove(coordinate);
+      Coordinate newCoords = new Coordinate(coordinate.getRow() + diffRow, coordinate.getColumn() + diffColumn);
+      newMap.put(newCoords, value);
+   }
+
+    this.myPieces = newMap;
+    this.upperLeft = newUpperLeft;
   }
 
 }

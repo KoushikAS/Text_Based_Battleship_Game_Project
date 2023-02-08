@@ -1,3 +1,4 @@
+
 package edu.duke.ka266.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,4 +112,21 @@ public class BattleShipBoardTest {
     b.fireAt(new Coordinate(0, 0));
     assertTrue(b.isAllShipsDestroyed());
   }
+
+  @Test
+  public void test_RemoveShips() {
+    BattleShipBoard<Character> b = new BattleShipBoard<Character>(3, 3, 'X');
+    Character[][] expected = new Character[3][3];
+
+    RectangleShip<Character> s1 = new RectangleShip<Character>(new Coordinate(1, 1), 's', '*');
+    RectangleShip<Character> s2 = new RectangleShip<Character>(new Coordinate(2, 0), 's', '*');
+
+    b.tryAddShip(s1);
+    b.tryAddShip(s2);
+
+    assertEquals(s1, b.removeShip(new Coordinate(1, 1)));
+    assertThrows(IllegalArgumentException.class, () -> b.removeShip(new Coordinate(4, 0)));
+    assertThrows(IllegalArgumentException.class, () -> b.removeShip(new Coordinate(3, 3)));
+  }
+
 }

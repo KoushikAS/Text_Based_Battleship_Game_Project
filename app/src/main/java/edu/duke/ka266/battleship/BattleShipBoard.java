@@ -93,6 +93,23 @@ public class BattleShipBoard<T> implements Board<T> {
   }
 
   /**
+   * If there is any ship occuping the specified coordinate it removes the shit
+   * and returns the same ship to the user.
+   * otherwise throws error;
+   **/
+  public Ship<T> removeShip(Coordinate where) {
+
+    for (Ship<T> s : myShips) {
+      if (s.occupiesCoordinates(where)) {
+        myShips.remove(s);
+        return s;
+      }
+    }
+
+    throw new IllegalArgumentException("No Ship present at this Coordinate.");
+  }
+
+  /**
    * his method takes a Coordinate, and sees which (if any) Ship
    * occupies that coordinate. If one is found, we return whatever
    * displayInfo it has at those coordinates
@@ -139,13 +156,12 @@ public class BattleShipBoard<T> implements Board<T> {
     return null;
   }
 
-  
   /**
-     This method tell if all the ships placed in the board are destroyed..
+   * This method tell if all the ships placed in the board are destroyed..
    **/
-  public boolean isAllShipsDestroyed(){
-    for(Ship<T> ship : myShips){
-      if(ship.isSunk() == false){
+  public boolean isAllShipsDestroyed() {
+    for (Ship<T> ship : myShips) {
+      if (ship.isSunk() == false) {
         return false;
       }
     }

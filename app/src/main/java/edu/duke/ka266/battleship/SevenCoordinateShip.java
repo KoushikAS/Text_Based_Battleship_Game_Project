@@ -4,12 +4,9 @@ import java.util.HashSet;
 
 public class SevenCoordinateShip<T> extends BasicShip<T> {
 
-  private final String name;
-
   public SevenCoordinateShip(String name, Coordinate upperLeft, char orientation, ShipDisplayInfo<T> displayData,
       ShipDisplayInfo<T> enemyDisplayData) {
-    super(makeCoords(upperLeft, orientation), displayData, enemyDisplayData);
-    this.name = name;
+    super(makeCoords(upperLeft, orientation), displayData, enemyDisplayData, name, upperLeft);
   }
 
   public SevenCoordinateShip(String name, Coordinate upperLeft, char orientation, T data, T onHit) {
@@ -57,9 +54,5 @@ public class SevenCoordinateShip<T> extends BasicShip<T> {
     return coordinates;
   }
 
-  @Override
-  public String getName() {
-    return name;
-  }
 
 }

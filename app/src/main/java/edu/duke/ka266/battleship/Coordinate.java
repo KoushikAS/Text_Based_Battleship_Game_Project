@@ -5,20 +5,19 @@ public class Coordinate {
   private final int row;
   private final int column;
 
-
   /**
    * Reading Coordinate object from a String.
    */
   Coordinate(String descr) {
 
-    if(descr == null){
-       throw new IllegalArgumentException("No Input was given");
+    if (descr == null) {
+      throw new IllegalArgumentException("No Input was given");
     }
 
-     if(descr.length() <2){
-       throw new IllegalArgumentException("Not Enough Input was given");
+    if (descr.length() < 2) {
+      throw new IllegalArgumentException("Not Enough Input was given");
     }
-    
+
     char rowLetter = descr.toUpperCase().charAt(0);
     if (rowLetter < 'A' || rowLetter > 'Z') {
       throw new IllegalArgumentException("Row character should be an Aplha character but is " + descr.charAt(0));
@@ -49,6 +48,7 @@ public class Coordinate {
   public int getColumn() {
     return this.column;
   }
+
 
   @Override
   public boolean equals(Object o) {

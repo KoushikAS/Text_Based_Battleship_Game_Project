@@ -16,6 +16,13 @@ public interface Board<T> {
   public String tryAddShip(Ship<T> toAdd);
 
   /**
+   * If there is any ship occuping the specified coordinate it removes the shit
+   * and returns the same ship to the user.
+   * otherwise returns null;
+   **/
+  public Ship<T> removeShip(Coordinate where);
+
+  /**
    * his method takes a Coordinate, and sees which (if any) Ship
    * occupies that coordinate. If one is found, we return whatever
    * displayInfo it has at those coordinates
@@ -23,7 +30,7 @@ public interface Board<T> {
    */
   public T whatIsAtForSelf(Coordinate where);
 
-    /**
+  /**
    * his method takes a Coordinate, and sees which (if any) Ship
    * occupies that coordinate For the enemy. If one is found, we return whatever
    * displayInfo it has at those coordinates
@@ -41,7 +48,7 @@ public interface Board<T> {
   public Ship<T> fireAt(Coordinate c);
 
   /**
-     This method tell if all the ships placed in the board are destroyed..
+   * This method tell if all the ships placed in the board are destroyed..
    **/
   public boolean isAllShipsDestroyed();
 }

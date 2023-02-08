@@ -65,6 +65,7 @@ public class TextPlayer {
     out.print(view.displayMyOwnBoard());
   }
 
+  
   /**
    * To show Initial phase. i.e. Instucting the player to setup his board.
    **/
@@ -113,6 +114,37 @@ public class TextPlayer {
     return new Coordinate(s);
   }
 
+
+  /**
+     Move ship
+   **/
+  public void moveShip() throws IOException{
+
+    Coordinate where;
+    try{
+     where = readCoordinate("Please enter the coordinate of the ship you want to move");
+    } catch(IllegalArgumentException e){
+      out.print("The Coordinate selected is invalid.");
+      return;
+    }
+
+   Ship<Character> shiptoMove ;
+    try{
+      shiptoMove = this.theBoard.removeShip(where);
+    } catch(IllegalArgumentException e){
+      out.print("There was no ship at the specified position");
+      return;
+    }
+
+    Iterable<Coordinate>  oldCoordinates = shiptoMove.getCoordinates();
+    
+    
+  }
+
+  
+  /**
+     Play one turn
+   **/
   public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
     out.print("Player " + this.TextPlayer + "'s turn:\n");
     out.print(this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName +"'s ocean"));
