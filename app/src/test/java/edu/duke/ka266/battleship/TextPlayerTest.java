@@ -2,7 +2,6 @@ package edu.duke.ka266.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -11,9 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -117,9 +113,9 @@ public class TextPlayerTest {
   @Test
   void test_fire() throws IOException {
     String input = new String(
-        getClass().getClassLoader().getResourceAsStream("fireTwoTurn-input.txt").readAllBytes());
+        getClass().getClassLoader().getResourceAsStream("fireTest-input.txt").readAllBytes());
     String expected = new String(
-        getClass().getClassLoader().getResourceAsStream("fireTwoTurn-output.txt").readAllBytes());
+        getClass().getClassLoader().getResourceAsStream("fireTest-output.txt").readAllBytes());
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
     TextPlayer player = createTextPlayer(3, 3, input, bytes);
@@ -130,7 +126,6 @@ public class TextPlayerTest {
     assertEquals(expected, bytes.toString());
   }
 
-  
   @Test
   void test_Move() throws IOException {
     String input = new String(
@@ -146,8 +141,8 @@ public class TextPlayerTest {
     player.playOneTurn(player.theBoard, player.view, "B");
     player.playOneTurn(player.theBoard, player.view, "B");
     player.playOneTurn(player.theBoard, player.view, "B");
-     player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
     assertEquals(expected, bytes.toString());
   }
-  
+
 }
