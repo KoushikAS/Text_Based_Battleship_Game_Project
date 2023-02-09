@@ -77,7 +77,7 @@ public class TextPlayerTest {
         + expectedHeader + body + expectedHeader;
 
     for (int i = 0; i < 3; i++) {
-      player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p),  "Player A where do you want to place a Submarine?");
+      player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
       assertEquals(expected[i], bytes.toString()); // should have printed prompt and newline
       bytes.reset(); // clear out bytes for next time around
     }
@@ -87,11 +87,11 @@ public class TextPlayerTest {
   void test_do_PlacementPhase() throws IOException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
-    String inputs = new String(getClass().getClassLoader().getResourceAsStream("textplayer-input.txt").readAllBytes());
+    String inputs = new String(getClass().getClassLoader().getResourceAsStream("placementPhaseTest-input.txt").readAllBytes());
     TextPlayer player = createTextPlayer(10, 20, inputs, bytes);
 
     String expected = new String(
-        getClass().getClassLoader().getResourceAsStream("textplayer-output.txt").readAllBytes());
+        getClass().getClassLoader().getResourceAsStream("placementPhaseTest-output.txt").readAllBytes());
 
     player.doPlacementPhase();
     assertEquals(expected, bytes.toString());
@@ -102,7 +102,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
     TextPlayer player = createTextPlayer(3, 5, "B2v", bytes);
-    player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p), "Player A where do you want to place a Submarine?");
+    player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
     assertFalse(player.checkLost());
     player.theBoard.fireAt(new Coordinate(1, 2));
     assertFalse(player.checkLost());

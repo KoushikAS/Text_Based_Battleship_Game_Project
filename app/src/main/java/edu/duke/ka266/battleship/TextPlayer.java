@@ -16,7 +16,7 @@ public class TextPlayer {
   final BufferedReader inputReader;
   final PrintStream out;
   final AbstractShipFactory<Character> shipFactory;
-  final ArrayList<String> shipsToPlace;
+  final protected ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
   int moveAction;
   int sonarAction;
@@ -49,12 +49,12 @@ public class TextPlayer {
   /**
    * Adding One Basic ship to the board.
    */
-  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn, String prompt)
+  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn)
       throws IOException {
 
     while (true) {
       try {
-        Placement p = readPlacement(prompt);
+        Placement p = readPlacement( "Player " + TextPlayer + " where do you want to place a " + shipName + "?");
         Ship<Character> s = createFn.apply(p);
         String errorMessage = theBoard.tryAddShip(s);
         if (errorMessage != null) {
@@ -87,8 +87,7 @@ public class TextPlayer {
         "2 \"Carriers\" that are 1x6\n");
 
     for (String ship : shipsToPlace) {
-      doOnePlacement(ship, shipCreationFns.get(ship),
-          "Player " + TextPlayer + " where do you want to place a " + ship + "?");
+      doOnePlacement(ship, shipCreationFns.get(ship));
     }
   }
 
@@ -102,8 +101,8 @@ public class TextPlayer {
   protected void setupShipCreationList() {
     shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
     shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
-    shipsToPlace.addAll(Collections.nCopies(4, "Battleship"));
-    shipsToPlace.addAll(Collections.nCopies(6, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Battleship"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
   }
 
   public boolean checkLost() {
@@ -123,11 +122,11 @@ public class TextPlayer {
    * Move ship to a new location. Returns true if it is successful. otherwise
    * false
    **/
-  private boolean moveShip(String prompt1, String prompt2) throws IOException {
+  private boolean moveShip() throws IOException {
 
     Coordinate where;
     try {
-      where = readCoordinate(prompt1);
+      where = readCoordinate("Please enter the coordinate of the ship you want to move");
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       return false;
@@ -143,7 +142,7 @@ public class TextPlayer {
 
     Coordinate newUpperLeft;
     try {
-      newUpperLeft = readCoordinate(prompt2);
+      newUpperLeft = readCoordinate( "Please enter the new coordinates where you want to move the ship.");
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       this.theBoard.tryAddShip(shiptoMove);
@@ -169,10 +168,10 @@ public class TextPlayer {
    * Fire at enemy board. Returns True if it is successful otherwise it retuns
    * false.
    **/
-  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName, String prompt)
+  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName)
       throws IOException {
     try {
-      Coordinate c = readCoordinate(prompt);
+      Coordinate c = readCoordinate( "\nPlayer " + TextPlayer + " where do you want to fire ?\n");
       Ship<Character> s = enemyBoard.fireAt(c);
       if (s == null) {
         out.print("You missed!\n");
@@ -190,10 +189,10 @@ public class TextPlayer {
    * Sonar Scans the board based on a center point. Returns true if successfull
    * otherwise returns false
    **/
-  private boolean sonarScan(Board<Character> enemyBoard, String prompt) throws IOException {
+  private boolean sonarScan(Board<Character> enemyBoard) throws IOException {
     Coordinate center;
     try {
-      center = readCoordinate(prompt);
+      center = readCoordinate( "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n");
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate entered is invalid.\n");
       return false;
@@ -256,16 +255,14 @@ public class TextPlayer {
 
       // Fire
       if (input.equalsIgnoreCase("F")) {
-        if (fire(enemyBoard, enemyView, enemyName,
-            "\nPlayer " + TextPlayer + " where do you want to fire ?\n") == true) {
+        if (fire(enemyBoard, enemyView, enemyName) == true) {
           break;
         }
       }
 
       // MoveShip
       if (input.equalsIgnoreCase("M") && moveAction > 0) {
-        if (moveShip("Please enter the coordinate of the ship you want to move",
-            "Please enter the new coordinates where you want to move the ship.") == true) {
+        if (moveShip() == true) {
           moveAction -= 1;
           break;
         }
@@ -273,8 +270,7 @@ public class TextPlayer {
 
       // Sonar Scan
       if (input.equalsIgnoreCase("S") && sonarAction > 0) {
-        if (sonarScan(enemyBoard,
-            "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n")) {
+        if (sonarScan(enemyBoard)) {
           sonarAction -= 1;
           break;
         }

@@ -24,25 +24,17 @@ public class App {
 
   public static void main(String[] args) throws IOException {
 
-    BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-    Board<Character> board = new BattleShipBoard<Character>(10, 20, 'X');
-    V1ShipFactory shipFactory = new V1ShipFactory();
-    TextPlayer player = new TextPlayer("A", board, input, System.out, shipFactory);
-    player.theBoard.tryAddShip(new V1ShipFactory().makeSubmarine(new Placement("b5V")));
-    player.theBoard.tryAddShip(new V1ShipFactory().makeCarrier(new Placement("c6V")));
-    player.theBoard.tryAddShip(new V1ShipFactory().makeDestroyer(new Placement("D3V")));
-    player.theBoard.tryAddShip(new V1ShipFactory().makeBattleship(new Placement("g0V")));
-    player.playOneTurn(player.theBoard, player.view, "B");
-    player.playOneTurn(player.theBoard, player.view, "B");
+    
+     Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
+     Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
+     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+     V1ShipFactory factory = new V1ShipFactory();
+     TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
 
-    /**
-     * Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
-     * Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
-     * BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-     * V1ShipFactory factory = new V1ShipFactory();
-     * TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
-     * TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+     p1.doPlacementPhase();
+     /**
+      * TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
      * 
      * App app = new App(p1, p2);
      * 

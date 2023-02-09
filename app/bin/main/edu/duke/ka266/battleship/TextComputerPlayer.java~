@@ -1,0 +1,24 @@
+package edu.duke.ka266.battleship;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintStream;
+
+public class TextComputerPlayer extends TextPlayer {
+
+  private int coordinateCounter;
+
+  public TextComputerPlayer(String TextPlayer, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
+      AbstractShipFactory<Character> shipFactory) {
+    super(TextPlayer, theBoard, inputSource, out, shipFactory);
+    this.coordinateCounter = 0;
+  }
+
+  @Override
+  public void doPlacementPhase() throws IOException {
+  }
+
+  @Override
+  public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
+  }
+}
