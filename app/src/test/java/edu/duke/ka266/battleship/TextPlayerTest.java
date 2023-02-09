@@ -77,7 +77,7 @@ public class TextPlayerTest {
         + expectedHeader + body + expectedHeader;
 
     for (int i = 0; i < 3; i++) {
-      player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
+      player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p),  "Player A where do you want to place a Submarine?");
       assertEquals(expected[i], bytes.toString()); // should have printed prompt and newline
       bytes.reset(); // clear out bytes for next time around
     }
@@ -102,7 +102,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
     TextPlayer player = createTextPlayer(3, 5, "B2v", bytes);
-    player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p));
+    player.doOnePlacement("Submarine", (p) -> new V1ShipFactory().makeSubmarine(p), "Player A where do you want to place a Submarine?");
     assertFalse(player.checkLost());
     player.theBoard.fireAt(new Coordinate(1, 2));
     assertFalse(player.checkLost());

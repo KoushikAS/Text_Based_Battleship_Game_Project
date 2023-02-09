@@ -49,11 +49,12 @@ public class TextPlayer {
   /**
    * Adding One Basic ship to the board.
    */
-  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
+  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn, String prompt)
+      throws IOException {
 
     while (true) {
       try {
-        Placement p = readPlacement("Player " + TextPlayer + " where do you want to place a " + shipName + "?");
+        Placement p = readPlacement(prompt);
         Ship<Character> s = createFn.apply(p);
         String errorMessage = theBoard.tryAddShip(s);
         if (errorMessage != null) {
@@ -86,7 +87,8 @@ public class TextPlayer {
         "2 \"Carriers\" that are 1x6\n");
 
     for (String ship : shipsToPlace) {
-      doOnePlacement(ship, shipCreationFns.get(ship));
+      doOnePlacement(ship, shipCreationFns.get(ship),
+          "Player " + TextPlayer + " where do you want to place a " + ship + "?");
     }
   }
 
@@ -121,11 +123,11 @@ public class TextPlayer {
    * Move ship to a new location. Returns true if it is successful. otherwise
    * false
    **/
-  private boolean moveShip() throws IOException {
+  private boolean moveShip(String prompt1, String prompt2) throws IOException {
 
     Coordinate where;
     try {
-      where = readCoordinate("Please enter the coordinate of the ship you want to move");
+      where = readCoordinate(prompt1);
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       return false;
@@ -141,7 +143,7 @@ public class TextPlayer {
 
     Coordinate newUpperLeft;
     try {
-      newUpperLeft = readCoordinate("Please enter the new coordinates where you want to move the ship.");
+      newUpperLeft = readCoordinate(prompt2);
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       this.theBoard.tryAddShip(shiptoMove);
@@ -167,9 +169,10 @@ public class TextPlayer {
    * Fire at enemy board. Returns True if it is successful otherwise it retuns
    * false.
    **/
-  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
+  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName, String prompt)
+      throws IOException {
     try {
-      Coordinate c = readCoordinate("\nPlayer " + TextPlayer + " where do you want to fire ?\n");
+      Coordinate c = readCoordinate(prompt);
       Ship<Character> s = enemyBoard.fireAt(c);
       if (s == null) {
         out.print("You missed!\n");
@@ -187,11 +190,10 @@ public class TextPlayer {
    * Sonar Scans the board based on a center point. Returns true if successfull
    * otherwise returns false
    **/
-  private boolean sonarScan(Board<Character> enemyBoard) throws IOException {
+  private boolean sonarScan(Board<Character> enemyBoard, String prompt) throws IOException {
     Coordinate center;
     try {
-      center = readCoordinate(
-          "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n");
+      center = readCoordinate(prompt);
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate entered is invalid.\n");
       return false;
@@ -254,14 +256,16 @@ public class TextPlayer {
 
       // Fire
       if (input.equalsIgnoreCase("F")) {
-        if (fire(enemyBoard, enemyView, enemyName) == true) {
+        if (fire(enemyBoard, enemyView, enemyName,
+            "\nPlayer " + TextPlayer + " where do you want to fire ?\n") == true) {
           break;
         }
       }
 
       // MoveShip
       if (input.equalsIgnoreCase("M") && moveAction > 0) {
-        if (moveShip() == true) {
+        if (moveShip("Please enter the coordinate of the ship you want to move",
+            "Please enter the new coordinates where you want to move the ship.") == true) {
           moveAction -= 1;
           break;
         }
@@ -269,7 +273,8 @@ public class TextPlayer {
 
       // Sonar Scan
       if (input.equalsIgnoreCase("S") && sonarAction > 0) {
-        if (sonarScan(enemyBoard)) {
+        if (sonarScan(enemyBoard,
+            "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n")) {
           sonarAction -= 1;
           break;
         }
