@@ -118,7 +118,8 @@ public class TextPlayer {
   }
 
   /**
-   * Move ship
+   * Move ship to a new location. Returns true if it is successful. otherwise
+   * false
    **/
   private boolean moveShip() throws IOException {
 
@@ -163,7 +164,8 @@ public class TextPlayer {
   }
 
   /**
-   * Fire at enemy board.
+   * Fire at enemy board. Returns True if it is successful otherwise it retuns
+   * false.
    **/
   private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
     try {
@@ -179,6 +181,56 @@ public class TextPlayer {
       out.print("That placement is invalid: it does not have the correct format." + "\n");
       return false;
     }
+  }
+
+  /**
+   * Sonar Scans the board based on a center point. Returns true if successfull
+   * otherwise returns false
+   **/
+  private boolean sonarScan(Board<Character> enemyBoard) throws IOException {
+    Coordinate center;
+    try {
+      center = readCoordinate(
+          "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n");
+    } catch (IllegalArgumentException e) {
+      out.print("The Coordinate entered is invalid.\n");
+      return false;
+    }
+
+    HashMap<Character, Integer> record = new HashMap<>();
+
+    boolean decrease = false;
+    int noOfElementsPerLine = 1;
+    int x = center.getRow();
+    int y = center.getColumn() - 3;
+    while (noOfElementsPerLine > 0) {
+      for (int i = x; i < x + noOfElementsPerLine; i++) {
+        Character what = enemyBoard.whatIsAtForSelf(new Coordinate(x + i, y));
+        if (what != null) {
+          record.putIfAbsent(what, 0);
+          record.computeIfPresent(what, (key, value) -> value + 1);
+        }
+      }
+
+      if (noOfElementsPerLine == 7) {
+        decrease = true;
+      }
+
+      if (decrease) {
+        noOfElementsPerLine = noOfElementsPerLine - 2;
+        x++;
+      } else {
+        noOfElementsPerLine = noOfElementsPerLine + 2;
+        x--;
+      }
+      y++;
+    }
+
+    out.print("Submarines occupy " + String.valueOf(record.getOrDefault('s', 0)) + " squares");
+    out.print("Destroyers occupy " + String.valueOf(record.getOrDefault('d', 0)) + " squares");
+    out.print("BattleShips occupy " + String.valueOf(record.getOrDefault('b', 0)) + " squares");
+    out.print("Carriers occupy " + String.valueOf(record.getOrDefault('c', 0)) + " squares");
+    return true;
   }
 
   /**
@@ -210,6 +262,12 @@ public class TextPlayer {
           moveAction -= 1;
           break;
         }
+      }
+
+      // Sonar Scan
+      if (input.equalsIgnoreCase("S") && sonarAction > 0) {
+        sonarScan(enemyBoard);
+        break;
       }
 
     }
