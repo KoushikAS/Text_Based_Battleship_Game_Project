@@ -29,24 +29,25 @@ public class App {
     TextPlayer player = null;
 
     while (true) {
-      out.println("Please enter 1 for your " + playerName + " to be Human.\n");
-      out.println("Please enter 2 for your " + playerName + " to be Computer.\n");
+      out.println("Please enter 1 for Player " + playerName + " to be Human.");
+      out.println("Please enter 2 for Player " + playerName + " to be Computer.");
       String input = inputSource.readLine();
-      int choice = Integer.parseInt(input);
-
-      if (choice == 1) {
-        player = new TextPlayer(playerName, b, inputSource, out, factory);
-        break;
-      }
-      if (choice == 2) {
-        player = new TextComputerPlayer(playerName, b, out, factory);
-        break;
-      }
-
-      out.print("Please enter a valid choice");
       try {
+        int choice = Integer.parseInt(input);
+
+        if (choice == 1) {
+          player = new TextPlayer(playerName, b, inputSource, out, factory);
+          break;
+        }
+        if (choice == 2) {
+          player = new TextComputerPlayer(playerName, b, out, factory);
+          break;
+        }
+
+        out.print("Please enter a valid choice.\n");
+
       } catch (NumberFormatException e) {
-        out.print("Please enter a valid choice\n");
+        out.print("Please enter a valid choice.\n");
       }
 
     }
