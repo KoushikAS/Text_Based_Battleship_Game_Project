@@ -1,6 +1,5 @@
 package edu.duke.ka266.battleship;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.function.Function;
@@ -9,9 +8,9 @@ public class TextComputerPlayer extends TextPlayer {
 
   private int coordinateCounter;
 
-  public TextComputerPlayer(String TextPlayer, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
+  public TextComputerPlayer(String TextPlayer, Board<Character> theBoard, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
-    super(TextPlayer, theBoard, inputSource, out, shipFactory);
+    super(TextPlayer, theBoard, null, out, shipFactory);
     this.coordinateCounter = 0;
   }
 
@@ -38,7 +37,16 @@ public class TextComputerPlayer extends TextPlayer {
   @Override
   public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
 
-    out.print(this.view.displayMyOwnBoard());
+    int row = coordinateCounter / theBoard.getWidth();
+    int column = coordinateCounter % theBoard.getWidth();
+    Coordinate c = new Coordinate(row, column);
 
+    fire(enemyBoard, c, "Player " + this.TextPlayer + " hit your %s at " + c.toString() + "!\n",
+        "Player fired at " + c.toString() + "!\n");
+
+    coordinateCounter++;
+    if (coordinateCounter / theBoard.getWidth() >= theBoard.getHeight()) {
+      coordinateCounter = 0;
+    }
   }
 }

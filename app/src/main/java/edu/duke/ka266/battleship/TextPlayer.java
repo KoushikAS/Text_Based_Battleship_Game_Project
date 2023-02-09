@@ -54,7 +54,7 @@ public class TextPlayer {
 
     while (true) {
       try {
-        Placement p = readPlacement( "Player " + TextPlayer + " where do you want to place a " + shipName + "?");
+        Placement p = readPlacement("Player " + TextPlayer + " where do you want to place a " + shipName + "?");
         Ship<Character> s = createFn.apply(p);
         String errorMessage = theBoard.tryAddShip(s);
         if (errorMessage != null) {
@@ -142,7 +142,7 @@ public class TextPlayer {
 
     Coordinate newUpperLeft;
     try {
-      newUpperLeft = readCoordinate( "Please enter the new coordinates where you want to move the ship.");
+      newUpperLeft = readCoordinate("Please enter the new coordinates where you want to move the ship.");
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       this.theBoard.tryAddShip(shiptoMove);
@@ -168,21 +168,15 @@ public class TextPlayer {
    * Fire at enemy board. Returns True if it is successful otherwise it retuns
    * false.
    **/
-  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName)
+  protected boolean fire(Board<Character> enemyBoard, Coordinate c, String hitPrompt, String missPrompt)
       throws IOException {
-    try {
-      Coordinate c = readCoordinate( "\nPlayer " + TextPlayer + " where do you want to fire ?\n");
-      Ship<Character> s = enemyBoard.fireAt(c);
-      if (s == null) {
-        out.print("You missed!\n");
-      } else {
-        out.print("You hit " + s.getName() + "!\n");
-      }
-      return true;
-    } catch (IllegalArgumentException e) {
-      out.print("That placement is invalid: it does not have the correct format." + "\n");
-      return false;
+    Ship<Character> s = enemyBoard.fireAt(c);
+    if (s == null) {
+      out.print(missPrompt);
+    } else {
+      out.print(String.format(hitPrompt, s.getName()));
     }
+    return true;
   }
 
   /**
@@ -192,7 +186,8 @@ public class TextPlayer {
   private boolean sonarScan(Board<Character> enemyBoard) throws IOException {
     Coordinate center;
     try {
-      center = readCoordinate( "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n");
+      center = readCoordinate(
+          "\nPlayer " + TextPlayer + " please enter the center of the coordinate where you want to scan\n");
     } catch (IllegalArgumentException e) {
       out.print("The Coordinate entered is invalid.\n");
       return false;
@@ -255,8 +250,12 @@ public class TextPlayer {
 
       // Fire
       if (input.equalsIgnoreCase("F")) {
-        if (fire(enemyBoard, enemyView, enemyName) == true) {
+        try {
+          Coordinate c = readCoordinate("\nPlayer " + TextPlayer + " where do you want to fire ?\n");
+          fire(enemyBoard, c, "You hit %s!\n", "You missed!\n");
           break;
+        } catch (IllegalArgumentException e) {
+          out.print("That placement is invalid: it does not have the correct format." + "\n");
         }
       }
 
