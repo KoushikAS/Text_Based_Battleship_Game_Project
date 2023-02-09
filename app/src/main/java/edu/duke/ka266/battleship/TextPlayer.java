@@ -203,8 +203,9 @@ public class TextPlayer {
     int noOfElementsPerLine = 1;
     int x = center.getRow();
     int y = center.getColumn() - 3;
+
     while (noOfElementsPerLine > 0) {
-      for (int i = x; i < x + noOfElementsPerLine; i++) {
+      for (int i = 0; i < noOfElementsPerLine; i++) {
         Character what = enemyBoard.whatIsAtForSelf(new Coordinate(x + i, y));
         if (what != null) {
           record.putIfAbsent(what, 0);
@@ -226,10 +227,10 @@ public class TextPlayer {
       y++;
     }
 
-    out.print("Submarines occupy " + String.valueOf(record.getOrDefault('s', 0)) + " squares");
-    out.print("Destroyers occupy " + String.valueOf(record.getOrDefault('d', 0)) + " squares");
-    out.print("BattleShips occupy " + String.valueOf(record.getOrDefault('b', 0)) + " squares");
-    out.print("Carriers occupy " + String.valueOf(record.getOrDefault('c', 0)) + " squares");
+    out.print("Submarines occupy " + String.valueOf(record.getOrDefault('s', 0)) + " squares\n");
+    out.print("Destroyers occupy " + String.valueOf(record.getOrDefault('d', 0)) + " squares\n");
+    out.print("BattleShips occupy " + String.valueOf(record.getOrDefault('b', 0)) + " squares\n");
+    out.print("Carriers occupy " + String.valueOf(record.getOrDefault('c', 0)) + " squares\n");
     return true;
   }
 
@@ -246,7 +247,9 @@ public class TextPlayer {
       if (moveAction > 0) {
         out.print("M Move a ship to another square (" + this.moveAction + " remaining)\n");
       }
-      out.print("S Sonar scan (" + this.sonarAction + " remaining)\n");
+      if (sonarAction > 0) {
+        out.print("S Sonar scan (" + this.sonarAction + " remaining)\n");
+      }
       String input = inputReader.readLine();
 
       // Fire
@@ -266,8 +269,10 @@ public class TextPlayer {
 
       // Sonar Scan
       if (input.equalsIgnoreCase("S") && sonarAction > 0) {
-        sonarScan(enemyBoard);
-        break;
+        if (sonarScan(enemyBoard)) {
+          sonarAction -= 1;
+          break;
+        }
       }
 
     }

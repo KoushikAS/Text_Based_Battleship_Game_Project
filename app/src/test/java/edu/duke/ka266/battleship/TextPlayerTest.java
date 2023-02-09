@@ -145,4 +145,22 @@ public class TextPlayerTest {
     assertEquals(expected, bytes.toString());
   }
 
+    @Test
+  void test_SonarScan() throws IOException {
+    String input = new String(
+        getClass().getClassLoader().getResourceAsStream("sonarTest-input.txt").readAllBytes());
+    String expected = new String(
+        getClass().getClassLoader().getResourceAsStream("sonarTest-output.txt").readAllBytes());
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+    TextPlayer player = createTextPlayer(10, 20, input, bytes);
+
+    player.theBoard.tryAddShip(new V1ShipFactory().makeSubmarine(new Placement("b5V")));
+    player.theBoard.tryAddShip(new V1ShipFactory().makeCarrier(new Placement("c6V")));
+    player.theBoard.tryAddShip(new V1ShipFactory().makeDestroyer(new Placement("D3V")));
+    player.theBoard.tryAddShip(new V1ShipFactory().makeBattleship(new Placement("g0v")));
+    player.playOneTurn(player.theBoard, player.view, "B");
+     player.playOneTurn(player.theBoard, player.view, "B");
+    assertEquals(expected, bytes.toString());
+  }
 }
