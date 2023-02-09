@@ -24,13 +24,19 @@ public class App {
 
   public static void main(String[] args) throws IOException {
 
-    Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
+    Board<Character> b1 = new BattleShipBoard<Character>(2, 2, 'X');
     Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     V2ShipFactory factory = new V2ShipFactory();
     TextComputerPlayer p1 = new TextComputerPlayer("A", b1, System.out, factory);
 
     p1.doPlacementPhase();
+    
+    p1.playOneTurn(b1, null, null);
+    p1.playOneTurn(b1, null, null);
+    p1.playOneTurn(b1, null, null);
+    p1.playOneTurn(b1, null, null);
+    p1.playOneTurn(b1, null, null);
     /**
      * TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
      * 

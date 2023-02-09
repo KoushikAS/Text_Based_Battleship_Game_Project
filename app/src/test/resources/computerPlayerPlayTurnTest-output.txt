@@ -1,0 +1,5 @@
+Player A hit your Submarine at (0, 0)!
+Player A hit your Submarine at (0, 1)!
+Player fired at (1, 0)!
+Player fired at (1, 1)!
+Player A hit your Submarine at (0, 0)!
