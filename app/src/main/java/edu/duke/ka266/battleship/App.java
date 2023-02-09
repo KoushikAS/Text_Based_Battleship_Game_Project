@@ -6,6 +6,7 @@ package edu.duke.ka266.battleship;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 public class App {
 
@@ -22,43 +23,65 @@ public class App {
     player2.doPlacementPhase();
   }
 
+  public static TextPlayer createPlayer(BufferedReader inputSource, PrintStream out, String playerName,
+      Board<Character> b,
+      AbstractShipFactory<Character> factory) throws IOException {
+    TextPlayer player = null;
+
+    while (true) {
+      out.println("Please enter 1 for your " + playerName + " to be Human.\n");
+      out.println("Please enter 2 for your " + playerName + " to be Computer.\n");
+      String input = inputSource.readLine();
+      int choice = Integer.parseInt(input);
+
+      if (choice == 1) {
+        player = new TextPlayer(playerName, b, inputSource, out, factory);
+        break;
+      }
+      if (choice == 2) {
+        player = new TextComputerPlayer(playerName, b, out, factory);
+        break;
+      }
+
+      out.print("Please enter a valid choice");
+      try {
+      } catch (NumberFormatException e) {
+        out.print("Please enter a valid choice\n");
+      }
+
+    }
+    return player;
+  }
+
   public static void main(String[] args) throws IOException {
 
-    Board<Character> b1 = new BattleShipBoard<Character>(2, 2, 'X');
+    Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
     Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     V2ShipFactory factory = new V2ShipFactory();
-    TextComputerPlayer p1 = new TextComputerPlayer("A", b1, System.out, factory);
 
-    p1.doPlacementPhase();
-    
-    p1.playOneTurn(b1, null, null);
-    p1.playOneTurn(b1, null, null);
-    p1.playOneTurn(b1, null, null);
-    p1.playOneTurn(b1, null, null);
-    p1.playOneTurn(b1, null, null);
-    /**
-     * TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
-     * 
-     * App app = new App(p1, p2);
-     * 
-     * app.doPlacementPhase();
-     * 
-     * while (true) {
-     * // Player 1 Turn
-     * p1.playOneTurn(p2.theBoard, p2.view, p2.TextPlayer);
-     * if (p2.checkLost()) {
-     * System.out.print("Player "+ p2.TextPlayer+" Lost!\n");
-     * break;
-     * }
-     * 
-     * // Player 2 turn
-     * p2.playOneTurn(p1.theBoard, p1.view, p1.TextPlayer);
-     * if (p1.checkLost()) {
-     * System.out.print("Player "+ p1.TextPlayer +" Lost!\n");
-     * break;
-     * }
-     * }
-     **/
+    TextPlayer p1 = createPlayer(input, System.out, "A", b1, factory);
+    TextPlayer p2 = createPlayer(input, System.out, "B", b2, factory);
+
+    App app = new App(p1, p2);
+
+    app.doPlacementPhase();
+
+    while (true) {
+      // Player 1 Turn
+      p1.playOneTurn(p2.theBoard, p2.view, p2.TextPlayer);
+      if (p2.checkLost()) {
+        System.out.print("Player " + p2.TextPlayer + " Lost!\n");
+        break;
+      }
+
+      // Player 2 turn
+      p2.playOneTurn(p1.theBoard, p1.view, p1.TextPlayer);
+      if (p1.checkLost()) {
+        System.out.print("Player " + p1.TextPlayer + " Lost!\n");
+        break;
+      }
+    }
+
   }
 }
