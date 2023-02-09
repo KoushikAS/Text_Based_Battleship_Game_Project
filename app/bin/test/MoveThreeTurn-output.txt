@@ -1,0 +1,51 @@
+Player A's turn:
+     Your ocean             Player B's ocean                   
+  0|1|2                    0|1|2                   
+A s| |  A                A  | |  A                     
+B s| |  B                B  | |  B                     
+C  | |  C                C  | |  C                     
+  0|1|2                    0|1|2                   
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+
+Player A where do you want to fire ?
+
+You hit Submarine!
+Player A's turn:
+     Your ocean             Player B's ocean                   
+  0|1|2                    0|1|2                   
+A s| |  A                A  | |  A                     
+B *| |  B                B s| |  B                     
+C  | |  C                C  | |  C                     
+  0|1|2                    0|1|2                   
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+Please enter the coordinate of the ship you want to move
+The Coordinate selected is invalid.
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+Please enter the coordinate of the ship you want to move
+Please enter the new coordinates where you want to move the ship.
+The Coordinate selected is invalid.
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+Please enter the coordinate of the ship you want to move
+There was no ship at the specified position
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+Please enter the coordinate of the ship you want to move

@@ -26,7 +26,7 @@ public abstract class PlacementRuleChecker<T> {
    **/
   public String checkPlacement(Ship<T> theShip, Board<T> theBoard) {
     // if we fail our own rule: stop the placement is not legal
-    String errorMessage = checkMyRule(theShip, theBoard); 
+    String errorMessage = checkMyRule(theShip, theBoard);
     if (errorMessage != null) {
       return errorMessage;
     }

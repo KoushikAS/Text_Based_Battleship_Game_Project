@@ -1,0 +1,42 @@
+Player A's turn:
+     Your ocean             Player B's ocean                   
+  0|1|2                    0|1|2                   
+A s| |  A                A  | |  A                     
+B s| |  B                B  | |  B                     
+C  | |  C                C  | |  C                     
+  0|1|2                    0|1|2                   
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+
+Player A where do you want to fire ?
+
+That placement is invalid: it does not have the correct format.
+
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+
+Player A where do you want to fire ?
+
+You hit Submarine!
+Player A's turn:
+     Your ocean             Player B's ocean                   
+  0|1|2                    0|1|2                   
+A s| |  A                A  | |  A                     
+B *| |  B                B s| |  B                     
+C  | |  C                C  | |  C                     
+  0|1|2                    0|1|2                   
+Possible actions for Player A:
+
+F Fire at a square
+M Move a ship to another square (2 remaining)
+S Sonar scan (1 remaining)
+
+Player A where do you want to fire ?
+
+You missed!

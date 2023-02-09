@@ -18,6 +18,8 @@ public class TextPlayer {
   final AbstractShipFactory<Character> shipFactory;
   final ArrayList<String> shipsToPlace;
   final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
+  int moveAction;
+  int sonarAction;
 
   public TextPlayer(String TextPlayer, Board<Character> theBoard, BufferedReader inputSource, PrintStream out,
       AbstractShipFactory<Character> shipFactory) {
@@ -31,6 +33,8 @@ public class TextPlayer {
     this.shipCreationFns = new HashMap<>();
     setupShipCreationList();
     setupShipCreationMap();
+    moveAction = 2;
+    sonarAction = 1;
   }
 
   /**
@@ -65,7 +69,6 @@ public class TextPlayer {
     out.print(view.displayMyOwnBoard());
   }
 
-  
   /**
    * To show Initial phase. i.e. Instucting the player to setup his board.
    **/
@@ -114,71 +117,102 @@ public class TextPlayer {
     return new Coordinate(s);
   }
 
-
- /**
-     Move ship
+  /**
+   * Move ship
    **/
-  public void moveShip() throws IOException{
+  private boolean moveShip() throws IOException {
 
     Coordinate where;
-    try{
-     where = readCoordinate("Please enter the coordinate of the ship you want to move");
-    } catch(IllegalArgumentException e){
+    try {
+      where = readCoordinate("Please enter the coordinate of the ship you want to move");
+    } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
-      return;
+      return false;
     }
 
-   Ship<Character> shiptoMove ;
-    try{
+    Ship<Character> shiptoMove;
+    try {
       shiptoMove = this.theBoard.removeShip(where);
-    } catch(IllegalArgumentException e){
+    } catch (IllegalArgumentException e) {
       out.print("There was no ship at the specified position");
-      return;
+      return false;
     }
 
     Coordinate newUpperLeft;
-    try{
+    try {
       newUpperLeft = readCoordinate("Please enter the new coordinates where you want to move the ship.");
-    } catch(IllegalArgumentException e){
+    } catch (IllegalArgumentException e) {
       out.print("The Coordinate selected is invalid.");
       this.theBoard.tryAddShip(shiptoMove);
-      return;
+      return false;
     }
-    
+
     Coordinate oldUpperLeft = shiptoMove.getUpperLeftCoordinate();
     shiptoMove.MoveCoordiantes(newUpperLeft);
-    
-    try{
-      this.theBoard.tryAddShip(shiptoMove);
-    } catch(IllegalArgumentException e){
-      out.print("Ship was not moved");
+
+    String errorMessage = this.theBoard.tryAddShip(shiptoMove);
+
+    if (errorMessage != null) {
+      out.print(errorMessage);
       shiptoMove.MoveCoordiantes(oldUpperLeft);
       this.theBoard.tryAddShip(shiptoMove);
-      return;
-    }    
+      return false;
+    } else {
+      return true;
+    }
   }
 
-
-  
   /**
-     Play one turn
+   * Fire at enemy board.
+   **/
+  private boolean fire(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
+    try {
+      Coordinate c = readCoordinate("\nPlayer " + TextPlayer + " where do you want to fire ?\n");
+      Ship<Character> s = enemyBoard.fireAt(c);
+      if (s == null) {
+        out.print("You missed!\n");
+      } else {
+        out.print("You hit " + s.getName() + "!\n");
+      }
+      return true;
+    } catch (IllegalArgumentException e) {
+      out.print("That placement is invalid: it does not have the correct format." + "\n");
+      return false;
+    }
+  }
+
+  /**
+   * Play one turn
    **/
   public void playOneTurn(Board<Character> enemyBoard, BoardTextView enemyView, String enemyName) throws IOException {
     out.print("Player " + this.TextPlayer + "'s turn:\n");
-    out.print(this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName +"'s ocean"));
+    out.print(this.view.displayMyBoardWithEnemyNextToIt(enemyView, "Your ocean", "Player " + enemyName + "'s ocean"));
     while (true) {
-      try {
-        Coordinate c = readCoordinate("\nPlayer " + TextPlayer + " where do you want to fire ?\n");
-        Ship<Character> s = enemyBoard.fireAt(c);
-        if (s == null) {
-          out.print("You missed!\n");
-        } else {
-          out.print("You hit " + s.getName() + "!\n");
-        }
-        break;
-      } catch (IllegalArgumentException e) {
-        out.print("That placement is invalid: it does not have the correct format." + "\n");
+
+      out.print("\nPossible actions for Player " + this.TextPlayer + ":\n\n");
+      out.print("F Fire at a square\n");
+      if (moveAction > 0) {
+        out.print("M Move a ship to another square (" + this.moveAction + " remaining)\n");
       }
+      out.print("S Sonar scan (" + this.sonarAction + " remaining)\n");
+      String input = inputReader.readLine();
+
+      // Fire
+      if (input.equalsIgnoreCase("F")) {
+        if (fire(enemyBoard, enemyView, enemyName) == true) {
+          break;
+        }
+      }
+
+      // MoveShip
+      if (input.equalsIgnoreCase("M") && moveAction > 0) {
+        if (moveShip() == true) {
+          moveAction -= 1;
+          break;
+        }
+      }
+
     }
   }
+
 }

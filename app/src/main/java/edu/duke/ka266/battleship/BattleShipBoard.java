@@ -2,6 +2,7 @@
 package edu.duke.ka266.battleship;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class BattleShipBoard<T> implements Board<T> {
@@ -10,6 +11,7 @@ public class BattleShipBoard<T> implements Board<T> {
   private final int height;
   private final PlacementRuleChecker<T> placementChecker;
   private final HashSet<Coordinate> enemyMisses;
+  private final HashMap<Coordinate, T> enemyHits;
 
   final T missInfo;
   final ArrayList<Ship<T>> myShips;
@@ -39,6 +41,7 @@ public class BattleShipBoard<T> implements Board<T> {
 
     this.placementChecker = placementChecker;
     this.enemyMisses = new HashSet<>();
+    this.enemyHits = new HashMap<>();
     this.missInfo = missInfo;
   }
 
@@ -126,11 +129,13 @@ public class BattleShipBoard<T> implements Board<T> {
    * 
    */
   public T whatIsAtForEnemy(Coordinate where) {
-    if (this.enemyMisses.contains(where) == true) {
+    if (this.enemyHits.containsKey(where) == true) {
+      return enemyHits.get(where);
+    } else if (this.enemyMisses.contains(where) == true) {
       return this.missInfo;
-    } else {
-      return whatIsAt(where, false);
     }
+
+    return null;
   }
 
   /**
@@ -147,11 +152,14 @@ public class BattleShipBoard<T> implements Board<T> {
 
     for (Ship<T> s : myShips) {
       if (s.occupiesCoordinates(where)) {
+        this.enemyMisses.remove(where);
         s.recordHitAt(where);
+        this.enemyHits.put(where, s.getDisplayInfoAt(where, false));
         return s;
       }
     }
 
+    this.enemyHits.remove(where);
     this.enemyMisses.add(where);
     return null;
   }

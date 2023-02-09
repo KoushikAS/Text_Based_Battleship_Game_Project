@@ -114,16 +114,40 @@ public class TextPlayerTest {
     assertTrue(player.checkLost());
   }
 
-  //Not properly tested
   @Test
-  void test_playOneTurn() throws IOException{
+  void test_fire() throws IOException {
+    String input = new String(
+        getClass().getClassLoader().getResourceAsStream("fireTwoTurn-input.txt").readAllBytes());
+    String expected = new String(
+        getClass().getClassLoader().getResourceAsStream("fireTwoTurn-output.txt").readAllBytes());
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
-     TextPlayer player = createTextPlayer(3, 3, "BV\nB0", bytes);
+    TextPlayer player = createTextPlayer(3, 3, input, bytes);
 
-     player.theBoard.tryAddShip( new V1ShipFactory().makeSubmarine(new Placement("A0V")));
-      player.playOneTurn(player.theBoard, player.view, "B");
+    player.theBoard.tryAddShip(new V1ShipFactory().makeSubmarine(new Placement("A0V")));
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+    assertEquals(expected, bytes.toString());
+  }
 
+  
+  @Test
+  void test_Move() throws IOException {
+    String input = new String(
+        getClass().getClassLoader().getResourceAsStream("moveTest-input.txt").readAllBytes());
+    String expected = new String(
+        getClass().getClassLoader().getResourceAsStream("moveTest-output.txt").readAllBytes());
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+    TextPlayer player = createTextPlayer(3, 3, input, bytes);
+
+    player.theBoard.tryAddShip(new V1ShipFactory().makeSubmarine(new Placement("A0V")));
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+     player.playOneTurn(player.theBoard, player.view, "B");
+    assertEquals(expected, bytes.toString());
   }
   
 }

@@ -49,7 +49,6 @@ public class Coordinate {
     return this.column;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (o != null && o.getClass().equals(getClass())) {

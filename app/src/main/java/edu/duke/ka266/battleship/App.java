@@ -23,32 +23,45 @@ public class App {
   }
 
   public static void main(String[] args) throws IOException {
-    Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
-    Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
+
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-    V1ShipFactory factory = new V1ShipFactory();
-    TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
-    TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
 
-    App app = new App(p1, p2);
-
-    app.doPlacementPhase();
-
-    while (true) {
-      // Player 1 Turn
-      p1.playOneTurn(p2.theBoard, p2.view, p2.TextPlayer);
-      if (p2.checkLost()) {
-        System.out.print("Player "+ p2.TextPlayer+" Lost!\n");
-        break;
-      }
-
-      // Player 2 turn
-      p2.playOneTurn(p1.theBoard, p1.view, p1.TextPlayer);
-      if (p1.checkLost()) {
-        System.out.print("Player "+ p1.TextPlayer +" Lost!\n");
-        break;
-      }
-    }
-
+    Board<Character> board = new BattleShipBoard<Character>(3, 3, 'X');
+    V1ShipFactory shipFactory = new V1ShipFactory();
+    TextPlayer player = new TextPlayer("A", board, input, System.out, shipFactory);
+    player.theBoard.tryAddShip(new V1ShipFactory().makeSubmarine(new Placement("A0V")));
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+    player.playOneTurn(player.theBoard, player.view, "B");
+      player.playOneTurn(player.theBoard, player.view, "B");
+       player.playOneTurn(player.theBoard, player.view, "B");
+    /**
+     * Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
+     * Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
+     * BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+     * V1ShipFactory factory = new V1ShipFactory();
+     * TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
+     * TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+     * 
+     * App app = new App(p1, p2);
+     * 
+     * app.doPlacementPhase();
+     * 
+     * while (true) {
+     * // Player 1 Turn
+     * p1.playOneTurn(p2.theBoard, p2.view, p2.TextPlayer);
+     * if (p2.checkLost()) {
+     * System.out.print("Player "+ p2.TextPlayer+" Lost!\n");
+     * break;
+     * }
+     * 
+     * // Player 2 turn
+     * p2.playOneTurn(p1.theBoard, p1.view, p1.TextPlayer);
+     * if (p1.checkLost()) {
+     * System.out.print("Player "+ p1.TextPlayer +" Lost!\n");
+     * break;
+     * }
+     * }
+     **/
   }
 }
