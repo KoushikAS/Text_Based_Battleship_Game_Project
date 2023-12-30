@@ -29,8 +29,8 @@ This project is a Java-based implementation of the classic game "Battleship", co
 1. Clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/KoushikAS/pomelo-test.git
-cd pomelo-test
+git clone https://github.com/KoushikAS/pomelo-test.git](https://github.com/KoushikAS/Text_Based_Battleship_Game_Project.git
+cd Text_Based_Battleship_Game_Project
 ```
 
 ### Running the Game
